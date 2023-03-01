@@ -13,6 +13,7 @@
 
 ### Installation mysql-server and creating a database
 sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
+
 pip install mysqlclient
 ```bash
   sudo apt install mysql-server
