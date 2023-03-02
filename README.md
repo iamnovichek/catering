@@ -38,3 +38,18 @@
   sudo mysql -u username -p
   show databases;
 ```
+
+### Creating migrations 
+
+Create model in myapp/models.py, than:
+
+```bash
+  python manage.py makemigrations
+  python manage.py migrate
+```
+
+### Creating a superuser 
+
+```bash
+  python manage.py createsuperuser
+```
