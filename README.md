@@ -41,7 +41,7 @@
 
 ### Creating migrations 
 
-Create model in myapp/models.py, than:
+Create a model in myapp/models.py, than:
 
 ```bash
   python manage.py makemigrations
