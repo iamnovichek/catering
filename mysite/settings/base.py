@@ -55,13 +55,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mysite.urls'
 
-# Templates Directory
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': ["templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +70,7 @@ TEMPLATES = [
         },
     },
 ]
+LOGIN_REDIRECT_URL = '/admin'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -113,3 +111,5 @@ STATIC_URL = f'{BASE_DIR}/myapp/static/'
 # Default primary key field typ
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+print(BASE_DIR)
