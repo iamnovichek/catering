@@ -70,7 +70,8 @@ TEMPLATES = [
         },
     },
 ]
-LOGIN_REDIRECT_URL = '/admin'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -112,4 +113,3 @@ STATIC_URL = f'{BASE_DIR}/myapp/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-print(BASE_DIR)
