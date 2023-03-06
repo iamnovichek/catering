@@ -8,7 +8,7 @@
   python3 -m venv django
   source django/bin/activate
   cd ..
-  pip3 install Django
+  pip3 install -r requirements.txt
 ```
 
 ### Installation mysql-server and creating a database
