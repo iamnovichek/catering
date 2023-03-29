@@ -8,17 +8,21 @@ class CustomSignupForm(SignupForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     email = forms.EmailField(max_length=255, required=True)
-    birthdate = forms.DateField(required=False, help_text='''Optional (Sets current date by default)''')
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        if commit:
-            user.save()
-        return user
+    birthdate = forms.DateField(required=False, help_text='Optional')
+    # photo = forms.ImageField(required=False)
 
     class Meta:
         model = CustomUser
         fields = ['username', 'first_name',
                   'last_name', 'email',
-                  'birthdate', 'password1',
-                  'password2']
+                  'birthdate',
+                  'password1', 'password2'
+                  ]
+
+    def save(self, commit=True):
+        user = super(CustomSignupForm, self).save(commit=False)
+        if commit:
+            user.save()
+
+        return user
+
