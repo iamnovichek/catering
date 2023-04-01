@@ -1,14 +1,9 @@
-<html>
-<head></head>
-<body>
+
 
 {% block title %}You have successfully registered{% endblock %}
 
 {% block content %}
-{% csrf_token %}
 <br>
 <br>
 <button><a href="{% url 'home' %}" >Go home</a></button>
 {% endblock %}
-</body>
-</html>

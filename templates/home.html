@@ -1,10 +1,7 @@
+{% extends 'base.html' %}
 
-<html>
-<head>
-<title>Home</title>
-</head>
+
 {% block content %}
-{% csrf_token %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
   <br> <br>
@@ -16,4 +13,3 @@
   <button><a href="{% url 'signup' %}">Signup</a></button>
 {% endif %}
 {% endblock %}
-</html>

@@ -7,15 +7,15 @@
     <br><br>
     {% block content %}
     <br><br>
-    <p> Username: {{ user.profile.username }}
+    <p> Username: {{ profile.username }}
     <br><br>
-    <p> First name: {{ user.profile.first_name }}
+    <p> First name: {{ profile.first_name }}
     <br><br>
-    <p> Last name: {{ user.profile.last_name }}
+    <p> Last name: {{ profile.last_name }}
     <br><br>
     <p>Email: {{ user.email }}
     <br><br>
-    <p>Birthday:{{ user.profile.birthdate }}
+    <p>Birthday:{{ profile.birthdate }}
     <br><br>
     <button><a href="{% url 'home' %}">Go home</a></button>
     {% endblock %}
