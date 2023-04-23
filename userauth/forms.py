@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as SignupForm
-from .models import CustomUser, Profile
+from .models import CustomUser, UserProfile
+from PIL import Image
 
 
 class CustomSignupForm(SignupForm):
@@ -32,7 +33,7 @@ class CustomSignupForm(SignupForm):
                 password=password
             )
 
-            Profile.objects.create(
+            UserProfile.objects.create(
                 user=user,
                 username=username,
                 first_name=first_name,

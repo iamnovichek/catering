@@ -2,23 +2,24 @@
 
 
 {% block content %}
-{% block title %} <h1> {{ user.profile.first_name }} Profile </h1>{% endblock %}
+{% block title %} <h1> {{ user.profile.first_name }} UserProfile </h1>{% endblock %}
 <br>
-{% if user.profile.photo %}
-    <img src="{{ user.profile.photo.url }}">
+{% if user.userprofile.photo %}
+    <img src="{{ user.userprofile.photo.url }}">
 {% else %}
     <img src="{{BASE_DIR}}/media/default.png">
 {% endif %}
 <br>
-<h2>Username: </h2> {{user.profile.username}}
+<h2>Username: </h2> {{user.userprofile.username}}
 <br><br>
-<h2>First name: </h2> {{user.profile.first_name}}
+<h2>First name: </h2> {{user.userprofile.first_name}}
 <br><br>
-<h2>Last name: </h2> {{user.profile.last_name}}
+<h2>Last name: </h2> {{user.userprofile.last_name}}
 <br><br>
 <h2>Email: </h2> {{user.email}}
 <br><br>
-<h2>Birthdate: </h2> {% if user.profile.birthdate %} {{user.profile.birthdate}} {% else %} <p>You haven't enter yet</p>{% endif %}
+<h2>Birthdate: </h2> {% if user.userprofile.birthdate %} {{user.userprofile.birthdate}} {% else %} <p>You haven't specified yet</p>{% endif %}
 <br><br>
-<button><a href="{% url 'home'%}">Go back</a></button>
+<button><a href="{% url 'home'%}">Go back</a></button> <button><a href="{% url 'update_profile' user.userprofile.slug %}">Update profile</a></button>
+
 {% endblock %}

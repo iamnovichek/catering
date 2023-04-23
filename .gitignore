@@ -10,7 +10,8 @@ __pycache__/
 local.py
 
 # static files
-mysite/media/
+static/
+media/
 
 # Distribution / packaging
 .Python

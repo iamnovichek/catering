@@ -1,6 +1,10 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractUser
 from PIL import Image
+from django.conf import settings
+from django.utils.text import slugify
 
 
 class CustomUserManager(UserManager):
@@ -64,21 +68,24 @@ class CustomUser(AbstractUser):
         return self.is_admin
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, related_name='userprofile', on_delete=models.CASCADE)
     username = models.CharField(max_length=30, unique=True, blank=False)
+    slug = models.SlugField(unique=True)
     first_name = models.CharField(max_length=30, unique=False, blank=False)
     last_name = models.CharField(max_length=30, unique=False, blank=False)
     birthdate = models.DateField(unique=False, blank=True, null=True)
-    photo = models.ImageField(upload_to='profile_pics', blank=True, null=True)
+    photo = models.ImageField(upload_to='profile_pics')
 
     def __str__(self):
         return self.username
 
     def save(self, *args, **kwargs):
+        self.slug = slugify(self.username)
         super().save(*args, **kwargs)
         if self.photo:
             img = Image.open(self.photo.path)
             output_size = (200, 200)
             img = img.resize(output_size)
             img.save(self.photo.path)
+
