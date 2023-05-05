@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
@@ -7,8 +8,18 @@ from .forms import CustomSignupForm
 
 
 class CustomLoginView(LoginView):
+    form_class = AuthenticationForm
+    redirect_authenticated_user = True
     template_name = 'userauth/login.html'
-    success_url = reverse_lazy('home')
+    form_class.error_messages[
+        "invalid_login"
+    ] = 'Please enter a correct email and password. Note that both fields may be case-sensitive.'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class CustomSignupView(CreateView):
@@ -21,11 +32,10 @@ class CustomSignupView(CreateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
+        form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect(self.success_url)
         else:
             return render(request, self.template_name, {'form': form})
-

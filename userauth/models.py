@@ -1,9 +1,7 @@
-import os
-
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractUser
 from PIL import Image
-from django.conf import settings
+from django.urls import reverse
 from django.utils.text import slugify
 
 
@@ -75,10 +73,14 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=30, unique=False, blank=False)
     last_name = models.CharField(max_length=30, unique=False, blank=False)
     birthdate = models.DateField(unique=False, blank=True, null=True)
-    photo = models.ImageField(upload_to='profile_pics')
+    photo = models.ImageField(default="", upload_to='profile_pics')
+    phone = models.CharField(unique=True, max_length=30, blank=False)
 
     def __str__(self):
         return self.username
+
+    def get_absolute_url(self):
+        return reverse("myapp:update_profile", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.username)

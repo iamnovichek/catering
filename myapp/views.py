@@ -18,6 +18,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     form_class = ProfileUpdateForm
     login_url = reverse_lazy('login')
     template_name = "myapp/update_profile.html"
+    slug_url_kwarg = 'slug'
     success_url = reverse_lazy('profile')
 
     def get(self, request, *args, **kwargs):

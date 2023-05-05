@@ -1,5 +1,12 @@
 from django import forms
+from django.forms import ClearableFileInput
 from userauth.models import UserProfile
+
+
+class CustomImageWidget(ClearableFileInput):
+    initial_text = ""
+    input_text = ""
+    template_name = "myapp/custom_image_field.html"
 
 
 class ProfileUpdateForm(forms.ModelForm):
@@ -10,6 +17,9 @@ class ProfileUpdateForm(forms.ModelForm):
         self.fields['first_name'].initial = self.userprofile.first_name
         self.fields['last_name'].initial = self.userprofile.last_name
         self.fields['birthdate'].initial = self.userprofile.birthdate
+        self.fields['phone'].initial = self.userprofile.phone
+
+    photo = forms.ImageField(widget=CustomImageWidget)
 
     class Meta:
         model = UserProfile
@@ -18,7 +28,8 @@ class ProfileUpdateForm(forms.ModelForm):
             'first_name',
             'last_name',
             'birthdate',
-            'photo'
+            'photo',
+            'phone'
         ]
 
     def save(self, commit=True):
@@ -28,6 +39,7 @@ class ProfileUpdateForm(forms.ModelForm):
             self.userprofile.first_name = self.cleaned_data['first_name']
             self.userprofile.last_name = self.cleaned_data['last_name']
             self.userprofile.birthdate = self.cleaned_data['birthdate']
+            self.userprofile.phone = self.cleaned_data['phone']
             self.userprofile.photo = self.cleaned_data['photo']
             self.userprofile.save()
             form.save()
