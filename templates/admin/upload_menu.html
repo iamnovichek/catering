@@ -1,0 +1,16 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <hr>
+    <br>
+    {% render_field form.menu_file %}
+    <br><br>
+    <button type="submit" class="default">Save</button>
+    <br>
+    <hr>
+</form>
+{% endblock %}

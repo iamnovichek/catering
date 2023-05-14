@@ -37,5 +37,5 @@ class CustomSignupView(CreateView):
             user = form.save()
             login(request, user)
             return redirect(self.success_url)
-        else:
-            return render(request, self.template_name, {'form': form})
+
+        return render(request, self.template_name, {'form': form})

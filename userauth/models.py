@@ -1,8 +1,10 @@
+from django.core.validators import validate_email
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractUser
 from PIL import Image
 from django.urls import reverse
 from django.utils.text import slugify
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class CustomUserManager(UserManager):
@@ -40,7 +42,7 @@ class CustomUserManager(UserManager):
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True, validators=[validate_email])
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
@@ -68,16 +70,19 @@ class CustomUser(AbstractUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, related_name='userprofile', on_delete=models.CASCADE)
-    username = models.CharField(max_length=30, unique=True, blank=False)
+    username = models.CharField(max_length=30, unique=True)
     slug = models.SlugField(unique=True)
-    first_name = models.CharField(max_length=30, unique=False, blank=False)
-    last_name = models.CharField(max_length=30, unique=False, blank=False)
+    first_name = models.CharField(max_length=30, unique=False)
+    last_name = models.CharField(max_length=30, unique=False)
     birthdate = models.DateField(unique=False, blank=True, null=True)
-    photo = models.ImageField(default="", upload_to='profile_pics')
-    phone = models.CharField(unique=True, max_length=30, blank=False)
+    photo = models.ImageField(upload_to='profile_pics')
+    phone = PhoneNumberField(region='UA', max_length=30, unique=True)
 
     def __str__(self):
         return self.username
+
+    def _verify_date(self):
+        pass
 
     def get_absolute_url(self):
         return reverse("myapp:update_profile", kwargs={'slug': self.slug})
@@ -90,4 +95,3 @@ class UserProfile(models.Model):
             output_size = (200, 200)
             img = img.resize(output_size)
             img.save(self.photo.path)
-

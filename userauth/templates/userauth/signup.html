@@ -18,15 +18,20 @@
             <label  class="inp form-label">Username:</label><br>
             {% render_field form.username class='form-control' type="text" %}
         </div>
+        {% if form.username.error_messages %}
+            {% for key, ms in form.username.error_messages.items %}
+                {{ms}}
+            {% endfor %}
+        {% endif %}
         <div class="form-group was-validated">
             <label class="inp form-label">Email:</label><br>
             {% render_field form.email class='form-control' type="email" %}
         </div>
-        <div class="form-group was-validated">
+
+        <div class="form-group">
             <label class="inp form-label">Phone number:</label><br>
             <div class="input-group mb-3">
-                <span class="input-group-text">+38</span>
-                {% render_field form.phone class="form-control" aria-label="Amount (to the nearest dollar)" type="number" %}
+                {% render_field form.phone class="form-control is-invalid" id="phone" aria-label="Amount (to the nearest dollar)" type='tel' %}
               </div>
         </div>
         <div class="form-group was-validated">
@@ -45,6 +50,16 @@
             <label class="inp form-label">Confirm password:</label><br>
             {% render_field form.password2 class='form-control' type="password" %}
         </div>
+        {% if form.errors %}
+            {% for kw, error in form.errors.items %}
+                {{error}}
+            {% endfor %}
+        {% endif %}
+        {% if form.email.error_messages %}
+            {% for key, ms in form.email.error_messages.items %}
+                {{ms}}
+            {% endfor %}
+        {% endif %}
         <button type="submit">Submit</button>
     </form>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -54,4 +69,18 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
+
+    <script>
+        const input = document.querySelector('#phone');
+
+        input.addEventListener('input', function(event) {
+             if (this.value.length === 13){
+                this.classList.remove("is-invalid");
+                this.classList.add("is-valid");
+             } else {
+                this.classList.remove("is-valid");
+                this.classList.add("is-invalid");
+             };
+        });
+    </script>
 {% endblock %}

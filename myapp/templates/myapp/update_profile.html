@@ -39,13 +39,18 @@
             </div><br>
             <div class="pnumber"><label>Phone number:</label><br>
                 <div class="input-group mb-3">
-                <span class="input-group-text">+38</span>
-                {% render_field form.phone class="form-control" aria-label="Amount (to the nearest dollar)" type="number" %}
+                    {% render_field form.phone class="form-control" aria-label="Amount (to the nearest dollar)" type="tel" %}
               </div>
             </div><br>
             <div class="brth"><label>Birthday:</label><br>
                 {% render_field form.birthdate type="date" %}
             </div><br>
+            {% if form.errors %}
+            {% for kw, error in form.errors.items %}
+                {{error}}<br>
+            {% endfor %}
+        {% endif %}
+            <br>
         </div>
         <div class="buttons">
             <button class="b1"><a href="{% url 'profile' %}">Go back</a></button>
