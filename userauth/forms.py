@@ -27,6 +27,9 @@ class CustomSignupForm(SignupForm):
         if UserProfile.objects.filter(username=username).exists():
             raise ValidationError("Current username is already taken!")
 
+        if UserProfile.objects.filter(phone=phone).exists():
+            raise ValidationError("Current phone number is already taken!")
+
     def save(self, commit=True):
         email = self.cleaned_data['email']
         password = self.cleaned_data['password1']
