@@ -83,28 +83,18 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class OrderForm(forms.ModelForm):
-    first_course = forms.ModelChoiceField(queryset=None)  # to complete
+    first_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("first_course", flat=True))
     first_course_quantity = forms.IntegerField(min_value=0)
-    second_course = forms.ModelChoiceField(queryset=None)  # to complete
+    second_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("second_course", flat=True))
     second_course_quantity = forms.IntegerField(min_value=0)
-    dessert = forms.ModelChoiceField(queryset=None)  # to complete
-    dessert_quantity = forms.IntegerField(min_value=0)  # to complete
-    drink = forms.ModelChoiceField(queryset=None)  # to complete
+    dessert = forms.ModelChoiceField(queryset=Menu.objects.values_list("dessert", flat=True))
+    dessert_quantity = forms.IntegerField(min_value=0)
+    drink = forms.ModelChoiceField(queryset=Menu.objects.values_list("drink", flat=True))
     drink_quantity = forms.IntegerField(min_value=0)
 
     class Meta:
         model = Order
-        fields = [
-            'date',
-            'first_course',
-            'first_course_quantity',
-            'second_course',
-            'second_course_quantity',
-            'dessert',
-            'dessert_quantity',
-            'drink',
-            'drink_quantity'
-        ]
+        fields = "__all__"
 
     def save(self, commit=True):
         if commit:

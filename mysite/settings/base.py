@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'debug_toolbar',
     "phonenumber_field",
+    "django_apscheduler"
 ]
 
 MIDDLEWARE = [

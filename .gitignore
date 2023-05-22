@@ -13,6 +13,9 @@ local.py
 static/
 media/
 
+# fixtures
+myapp/fixtures/
+
 # Distribution / packaging
 .Python
 build/
