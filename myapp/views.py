@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -5,6 +7,7 @@ from django.forms import formset_factory
 from django.views.generic import CreateView, TemplateView
 from django.views.generic import UpdateView
 from .forms import ProfileUpdateForm, OrderForm, AddMenuForm, MainPageForm
+from .models import Menu
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
@@ -72,16 +75,26 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
 
 
 class OrderView(CreateView):
-    FormSet = formset_factory(OrderForm, extra=5)
+    form_class = OrderForm
     template_name = "myapp/order.html"
     success_url = reverse_lazy("order_success")
 
     def get(self, request, *args, **kwargs):
-        current_page = request.session.get("current_page", 1)
-        formset = self.FormSet(initial=[{}] * current_page)
-        return render(request, self.template_name, {'formset': formset, 'current_page': current_page})
+        form1 = self.form_class()
+        form2 = self.form_class()
+        form3 = self.form_class()
+        form4 = self.form_class()
+        form5 = self.form_class()
+        return render(request, self.template_name, {
+            'form1': form1,
+            'form2': form2,
+            'form3': form3,
+            'form4': form4,
+            'form5': form4
+        })
 
-    def post(self, request, *args, **kwargs):
+
+"""    def post(self, request, *args, **kwargs):
 
         formset = self.FormSet(request.POST)
         current_page = int(request.POST.get("current_page", 1))
@@ -99,5 +112,7 @@ class OrderView(CreateView):
 
         return render(request, self.template_name, {
             'formset': formset,
-            'current_page': current_page
+            'current_page': current_page,
+            'menu': self.menu
         })
+"""

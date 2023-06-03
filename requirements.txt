@@ -6,5 +6,4 @@ pandas==2.0.1
 django-widget-tweaks==1.4.12
 django-phonenumber-field==7.1.0
 phonenumbers==8.13.11
-django-apscheduler==0.6.2
-
+celery==5.2.7

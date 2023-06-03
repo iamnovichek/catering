@@ -70,17 +70,5 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
 
-    <script>
-        const input = document.querySelector('#phone');
-
-        input.addEventListener('input', function(event) {
-             if (this.value.length === 13){
-                this.classList.remove("is-invalid");
-                this.classList.add("is-valid");
-             } else {
-                this.classList.remove("is-valid");
-                this.classList.add("is-invalid");
-             };
-        });
-    </script>
+    <script src="{% static 'userauth/js/signup.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extrahead %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'myapp/css/order.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Order</title>
+    <link
+        type="image/png"
+        rel="Shortcut Icon"
+        href="{% static 'myapp/image/pizza.png' %}">
+    <style>
+      body {
+        background-image: url('{% static "myapp/image/bg.jpg" %}');
+        background-size: cover;
+      }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="upper">
+        <div class="home"><a href="{% url 'home' %}" style="color:white;">
+            <i class="fa-sharp fa-solid fa-house"></i></a></div>
+        <div class="all">
+            <div class="days">
+                <div class="list active" onclick="activeList()" id="1">1<br>Monday</div>
+                <div class="list" onclick="activeList()" id="2">2<br>Tuesday</div>
+                <div class="list" onclick="activeList()" id="3">3<br>Wednesday</div>
+                <div class="list" onclick="activeList()" id="4">4<br>Thursday</div>
+                <div class="list" onclick="activeList()" id="5">5<br>Friday</div>
+            </div>
+        </div>
+        <div class="grn">200 грн</div>
+    </div>
+    <form id="first" class="off on">
+    <div class="main">
+        <ul>
+            <li><h2 class="frst">First Course</h2></li>
+            <li><h2 class="qnt1">Quantity</h2></li>
+            <li><h2 class="fprc">Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form1.first_course %}
+            <input class="sq" type="number">
+            <div class="sq"></div>
+        </ul><br>
+        <ul>
+            <li><h2 class="tst">Second Course</h2></li>
+            <li><h2 class="qnt2">Quantity</h2></li>
+            <li><h2 class="prc">Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form1.second_course %}
+            <input class="sq" type="number" name="" id="">
+            <div class="sq"></div>
+        </ul><br>
+        <ul>
+            <li><h2>Dessert</h2></li>
+            <li><h2 class="qnt3">Quantity</h2></li>
+            <li><h2>Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form1.dessert %}
+            <input class="sq" type="number" name="" id="">
+            <div class="sq"></div>
+        </ul><br>
+        <ul>
+            <li><h2>Drinks</h2></li>
+            <li><h2 class="qnt4">Quantity</h2></li>
+            <li><h2>Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form1.drink %}
+            <input class="sq" type="number" name="" id="">
+            <div class="sq"></div>
+        </ul>
+    </div>
+    </form>
+    <form id="second" class="off">
+    <div class="main">
+        <ul>
+            <li><h2 class="frst">First Course</h2></li>
+            <li><h2 class="qnt1">Quantity</h2></li>
+            <li><h2 class="fprc">Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form2.first_course %}
+            <input class="sq" type="number">
+            <div class="sq"></div>
+        </ul><br>
+        <ul>
+            <li><h2 class="tst">Second Course</h2></li>
+            <li><h2 class="qnt2">Quantity</h2></li>
+            <li><h2 class="prc">Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form2.second_course %}
+            <input class="sq" type="number" name="" id="">
+            <div class="sq"></div>
+        </ul><br>
+        <ul>
+            <li><h2>Dessert</h2></li>
+            <li><h2 class="qnt3">Quantity</h2></li>
+            <li><h2>Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form2.dessert %}
+            <input class="sq" type="number" name="" id="">
+            <div class="sq"></div>
+        </ul><br>
+        <ul>
+            <li><h2>Drinks</h2></li>
+            <li><h2 class="qnt4">Quantity</h2></li>
+            <li><h2>Price</h2></li>
+        </ul>
+        <ul>
+            {% render_field form2.drink %}
+            <input class="sq" type="number" name="" id="">
+            <div class="sq"></div>
+        </ul>
+    </div>
+    </form>
+    <form id="third" class="off">
+        <div class="main">
+            <ul>
+                <li><h2 class="frst">First Course</h2></li>
+                <li><h2 class="qnt1">Quantity</h2></li>
+                <li><h2 class="fprc">Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form3.first_course %}
+                <input class="sq" type="number">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2 class="tst">Second Course</h2></li>
+                <li><h2 class="qnt2">Quantity</h2></li>
+                <li><h2 class="prc">Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form3.second_course %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2>Dessert</h2></li>
+                <li><h2 class="qnt3">Quantity</h2></li>
+                <li><h2>Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form3.dessert %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2>Drinks</h2></li>
+                <li><h2 class="qnt4">Quantity</h2></li>
+                <li><h2>Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form3.drink %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul>
+        </div>
+    </form>
+    <form id="four" class="off">
+        <div class="main">
+            <ul>
+                <li><h2 class="frst">First Course</h2></li>
+                <li><h2 class="qnt1">Quantity</h2></li>
+                <li><h2 class="fprc">Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form4.first_course %}
+                <input class="sq" type="number">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2 class="tst">Second Course</h2></li>
+                <li><h2 class="qnt2">Quantity</h2></li>
+                <li><h2 class="prc">Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form4.second_course %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2>Dessert</h2></li>
+                <li><h2 class="qnt3">Quantity</h2></li>
+                <li><h2>Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form4.dessert %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2>Drinks</h2></li>
+                <li><h2 class="qnt4">Quantity</h2></li>
+                <li><h2>Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form4.drink %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul>
+        </div>
+    </form>
+    <form id="five" class="off">
+        <div class="main">
+            <ul>
+                <li><h2 class="frst">First Course</h2></li>
+                <li><h2 class="qnt1">Quantity</h2></li>
+                <li><h2 class="fprc">Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form5.first_course %}
+                <input class="sq" type="number">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2 class="tst">Second Course</h2></li>
+                <li><h2 class="qnt2">Quantity</h2></li>
+                <li><h2 class="prc">Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form5.second_course %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2>Dessert</h2></li>
+                <li><h2 class="qnt3">Quantity</h2></li>
+                <li><h2>Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form5.dessert %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul><br>
+            <ul>
+                <li><h2>Drinks</h2></li>
+                <li><h2 class="qnt4">Quantity</h2></li>
+                <li><h2>Price</h2></li>
+            </ul>
+            <ul>
+                {% render_field form5.drink %}
+                <input class="sq" type="number" name="" id="">
+                <div class="sq"></div>
+            </ul>
+        </div>
+    </form>
+    <div class="buttons">
+        <button class="b1" onclick="backBtn()" id="back" style="visibility: hidden;">Back</button>
+        <button class="b1" onclick="nextBtn()" id="next"><a href='#'>Next</a></button>
+    </div>
+<script src="{% static 'myapp/js/order.js' %}"></script>
+{% endblock %}

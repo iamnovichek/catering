@@ -31,7 +31,7 @@
             <li><a style="color:red;" href="{% url 'profile' %}">PROFILE</a></li>
         </ul>
         <ul>
-            <li><i class="fa-solid fa-cart-shopping"></i></li>
+            <li><a style="color:red;" href="{% url 'order' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
             {% if user.is_authenticated %}
             <li class="login"><a href="{% url 'logout' %}">LOG OUT</a></li>
             {% else %}
@@ -43,7 +43,7 @@
     <div class="main">
         <h1>Menu</h1>
         <div class="title">
-            <h2>First course</h2>
+            <h2>First courses</h2>
         </div>
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -85,7 +85,7 @@
     </div><br>
     <div class="main">
         <div class="title">
-            <h2>Second course</h2>
+            <h2>Second courses</h2>
         </div>
         <div id="myCarousel2" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -127,7 +127,7 @@
     </div><br>
     <div class="main">
         <div class="title">
-            <h2>Desert</h2>
+            <h2>Desserts</h2>
         </div>
         <div id="myCarousel3" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -213,13 +213,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Initialize the carousel using JavaScript -->
     <script>
       $(document).ready(function() {
         $('#myCarousel').carousel({
-          interval: 3000, // Change the interval between slides
-          wrap: true, // Allow looping of slides
-          keyboard: true // Allow the user to navigate using the keyboard
+          interval: 3000,
+          wrap: true,
+          keyboard: true
         });
       });
     </script>

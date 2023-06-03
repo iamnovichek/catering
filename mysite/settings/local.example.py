@@ -1,4 +1,3 @@
-import os
 from .base import *
 
 LOGIN_URL = "login"
@@ -10,4 +9,8 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = ['static']
 FIXTURE_DIRS = [
     'myapp/fixtures/myapp/',
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]

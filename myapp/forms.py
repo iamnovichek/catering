@@ -1,22 +1,9 @@
-import pandas as pd
 import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput
 from userauth.models import UserProfile
 from .models import Order, Menu
-
-
-def is_adult(birthdate):
-    today_ = datetime.datetime.today()
-    age = today_.year - birthdate.year - ((today_.month, today_.day) < (birthdate.month, birthdate.day))
-    return age >= 18
-
-
-def is_too_old(birthday):
-    today_ = datetime.datetime.today()
-    age = today_.year - birthday.year - ((today_.month, today_.day) < (birthday.month, birthday.day))
-    return age >= 80
 
 
 class CustomImageWidget(ClearableFileInput):
@@ -56,7 +43,7 @@ class ProfileUpdateForm(forms.ModelForm):
         userprofile = UserProfile.objects.get(user=self.instance.user)
         cleaned_birthday = datetime.datetime.strptime(str(birthday), "%Y-%m-%d").date()
 
-        if not is_adult(cleaned_birthday) or is_too_old(cleaned_birthday):
+        if not self._is_adult(cleaned_birthday) or self._is_too_old(cleaned_birthday):
             raise ValidationError("Enter valid date!")
 
         if userprofile.username != username:
@@ -81,15 +68,38 @@ class ProfileUpdateForm(forms.ModelForm):
 
         return form
 
+    @staticmethod
+    def _is_adult(birthdate):
+        today_ = datetime.datetime.today()
+        age = today_.year - birthdate.year - ((today_.month, today_.day) < (birthdate.month, birthdate.day))
+        return age >= 18
+
+    @staticmethod
+    def _is_too_old(birthday):
+        today_ = datetime.datetime.today()
+        age = today_.year - birthday.year - ((today_.month, today_.day) < (birthday.month, birthday.day))
+        return age >= 80
+
+
+class DisabledOptionWidget(forms.Select):
+    def render(self, name, value, attrs=None, renderer=None):
+        html_code = super(DisabledOptionWidget, self).render(name, value, attrs, renderer)
+        html_code = html_code.replace(f'<option value=""', f'<option value="" disabled')
+        return html_code
+
 
 class OrderForm(forms.ModelForm):
-    first_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("first_course", flat=True))
+    first_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("first_course", flat=True),
+                                          empty_label='Select a dish', widget=DisabledOptionWidget)
     first_course_quantity = forms.IntegerField(min_value=0)
-    second_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("second_course", flat=True))
+    second_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("second_course", flat=True),
+                                           empty_label='Select a dish', widget=DisabledOptionWidget)
     second_course_quantity = forms.IntegerField(min_value=0)
-    dessert = forms.ModelChoiceField(queryset=Menu.objects.values_list("dessert", flat=True))
+    dessert = forms.ModelChoiceField(queryset=Menu.objects.values_list("dessert", flat=True),
+                                     empty_label='Select a dish', widget=DisabledOptionWidget)
     dessert_quantity = forms.IntegerField(min_value=0)
-    drink = forms.ModelChoiceField(queryset=Menu.objects.values_list("drink", flat=True))
+    drink = forms.ModelChoiceField(queryset=Menu.objects.values_list("drink", flat=True),
+                                   empty_label='Select a drink', widget=DisabledOptionWidget)
     drink_quantity = forms.IntegerField(min_value=0)
 
     class Meta:
@@ -126,6 +136,8 @@ class AddMenuForm(forms.ModelForm):
 
             if Menu.objects.all():
                 Menu.objects.all().delete()
+
+            import pandas as pd
 
             csv_file = self.cleaned_data['menu_file']
             excel_data = pd.read_excel(csv_file)
