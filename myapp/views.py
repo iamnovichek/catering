@@ -92,27 +92,3 @@ class OrderView(CreateView):
             'form4': form4,
             'form5': form4
         })
-
-
-"""    def post(self, request, *args, **kwargs):
-
-        formset = self.FormSet(request.POST)
-        current_page = int(request.POST.get("current_page", 1))
-
-        if formset.is_valid():
-
-            next_page = current_page + 1
-
-            if next_page <= 5:
-                request.session["current_page"] = next_page
-                return redirect("order_page")
-            else:
-                del request.session['current_page']
-                return redirect("order_success")
-
-        return render(request, self.template_name, {
-            'formset': formset,
-            'current_page': current_page,
-            'menu': self.menu
-        })
-"""
