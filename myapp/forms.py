@@ -9,10 +9,14 @@ from .models import Order, Menu
 class CustomImageWidget(ClearableFileInput):
     initial_text = ""
     input_text = ""
+    clear_checkbox_label = ""
     template_name = "myapp/custom_image_field.html"
 
 
 class ProfileUpdateForm(forms.ModelForm):
+
+    photo = forms.ImageField(widget=CustomImageWidget)
+
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         self.userprofile = UserProfile.objects.get(user=self.instance.user)
@@ -21,8 +25,6 @@ class ProfileUpdateForm(forms.ModelForm):
         self.fields['last_name'].initial = self.userprofile.last_name
         self.fields['birthdate'].initial = self.userprofile.birthdate
         self.fields['phone'].initial = self.userprofile.phone
-
-    photo = forms.ImageField(widget=CustomImageWidget)
 
     class Meta:
         model = UserProfile
