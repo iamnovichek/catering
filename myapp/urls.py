@@ -9,5 +9,5 @@ urlpatterns = [
     path('profile/update/<slug:slug>/', UpdateProfileView.as_view(), name='update_profile'),
     path('upload_menu/', AddMenuView.as_view(), name='add_menu'),
     path('make_order/', OrderView.as_view(), name='order'),
-    path('set_price/', PriceSetterAjax.as_view(), name='set_price'),
+    path('set_price/',  PriceSetterAjax.as_view(), name='set_price'),
 ]

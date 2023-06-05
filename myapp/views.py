@@ -74,7 +74,8 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {'form': form})
 
 
-class OrderView(CreateView):
+class OrderView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     form_class = OrderForm
     template_name = "myapp/order.html"
     success_url = reverse_lazy("order_success")
@@ -121,7 +122,5 @@ class PriceSetterAjax(View):
             'drinks_prices': list(Menu.objects.values_list('drink_price', flat=True)),
         }
 
-        test_response = "1"
-
-        return JsonResponse(list(test_response))
+        return JsonResponse({'response': menu_data})
 

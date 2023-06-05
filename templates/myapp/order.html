@@ -38,7 +38,7 @@
                 <div class="list" onclick="activeList()" id="5">{{Friday}}<br>Friday</div>
             </div>
         </div>
-        <div class="grn">200 грн</div>
+        <div class="grn">20 €</div>
     </div>
     <form id="first" class="off on" method='post'>
         {% csrf_token %}
@@ -59,9 +59,9 @@
             <li><h2 class="prc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.second_course %}
-            {% render_field form1.second_course_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form1.second_course id='f1_sc' %}
+            {% render_field form1.second_course_quantity id='f1_scq' class="sq" type="number" %}
+            <div class="sq" id='f1_scp'></div>
         </ul><br>
         <ul>
             <li><h2>Dessert</h2></li>
@@ -69,9 +69,9 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.dessert %}
-            {% render_field form1.dessert_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form1.dessert id='f1_des' %}
+            {% render_field form1.dessert_quantity id='f1_des_q' class="sq" type="number" %}
+            <div class="sq" id='f1_des_p' ></div>
         </ul><br>
         <ul>
             <li><h2>Drinks</h2></li>
@@ -79,9 +79,9 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.drink %}
-            {% render_field form1.drink_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form1.drink id='f1_dr' %}
+            {% render_field form1.drink_quantity id='f1_dr_q' class="sq" type="number" %}
+            <div class="sq" id='f1_dr_p' ></div>
         </ul>
     </div>
     </form>
@@ -94,9 +94,9 @@
             <li><h2 class="fprc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.first_course %}
-            {% render_field form2.first_course_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form2.first_course id='f2_fc' %}
+            {% render_field form2.first_course_quantity id='f2_fcq' class="sq" type="number" %}
+            <div class="sq" id='f2_fcp'></div>
         </ul><br>
         <ul>
             <li><h2 class="tst">Second Course</h2></li>
@@ -104,9 +104,9 @@
             <li><h2 class="prc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.second_course %}
-            {% render_field form2.second_course_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form2.second_course id='f2_sc' %}
+            {% render_field form2.second_course_quantity id='f2_scq' class="sq" type="number" %}
+            <div class="sq" id='f2_scp' ></div>
         </ul><br>
         <ul>
             <li><h2>Dessert</h2></li>
@@ -114,9 +114,9 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.dessert %}
-            {% render_field form2.dessert_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form2.dessert id='f2_des' %}
+            {% render_field form2.dessert_quantity id='f2_des_q' class="sq" type="number" %}
+            <div class="sq" id='f2_des_p'></div>
         </ul><br>
         <ul>
             <li><h2>Drinks</h2></li>
@@ -124,9 +124,9 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.drink %}
-            {% render_field form2.drink_quantity class="sq" type="number" %}
-            <div class="sq"></div>
+            {% render_field form2.drink id='f2_dr' %}
+            {% render_field form2.drink_quantity id='f2_dr_q' class="sq" type="number" %}
+            <div class="sq" id='f2_dr_p'></div>
         </ul>
     </div>
     </form>
@@ -139,9 +139,9 @@
                 <li><h2 class="fprc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.first_course %}
-                {% render_field form3.first_course_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form3.first_course id='f3_fc' %}
+                {% render_field form3.first_course_quantity id='f3_fcq' class="sq" type="number" %}
+                <div class="sq" id='f3_fcp'></div>
             </ul><br>
             <ul>
                 <li><h2 class="tst">Second Course</h2></li>
@@ -149,9 +149,9 @@
                 <li><h2 class="prc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.second_course %}
-                {% render_field form3.second_course_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form3.second_course id='f3_sc' %}
+                {% render_field form3.second_course_quantity id='f3_scq' class="sq" type="number" %}
+                <div class="sq" id='f3_scp'></div>
             </ul><br>
             <ul>
                 <li><h2>Dessert</h2></li>
@@ -159,9 +159,9 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.dessert %}
-                {% render_field form3.dessert_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form3.dessert id='f3_des' %}
+                {% render_field form3.dessert_quantity id='f3_des_q' class="sq" type="number" %}
+                <div class="sq" id='f3_des_p' ></div>
             </ul><br>
             <ul>
                 <li><h2>Drinks</h2></li>
@@ -169,9 +169,9 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.drink %}
-                {% render_field form3.drink_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form3.drink id='f3_dr' %}
+                {% render_field form3.drink_quantity id='f3_dr_q' class="sq" type="number" %}
+                <div class="sq" id='f3_dr_p' ></div>
             </ul>
         </div>
     </form>
@@ -184,9 +184,9 @@
                 <li><h2 class="fprc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.first_course %}
-                {% render_field form4.first_course_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form4.first_course id="f4_fc" %}
+                {% render_field form4.first_course_quantity id="f4_fcq" class="sq" type="number" %}
+                <div class="sq" id="f4_fcp"></div>
             </ul><br>
             <ul>
                 <li><h2 class="tst">Second Course</h2></li>
@@ -194,9 +194,9 @@
                 <li><h2 class="prc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.second_course %}
-                {% render_field form4.second_course_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form4.second_course id='f4_sc' %}
+                {% render_field form4.second_course_quantity id='f4_scq' class="sq" type="number" %}
+                <div class="sq" id='f4_scp'></div>
             </ul><br>
             <ul>
                 <li><h2>Dessert</h2></li>
@@ -204,9 +204,9 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.dessert %}
-                {% render_field form4.dessert_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form4.dessert id='f4_des' %}
+                {% render_field form4.dessert_quantity id='f4_des_q' class="sq" type="number" %}
+                <div class="sq" id='f4_des_p'></div>
             </ul><br>
             <ul>
                 <li><h2>Drinks</h2></li>
@@ -214,9 +214,9 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.drink %}
-                {% render_field form4.drink_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form4.drink id='f4_dr' %}
+                {% render_field form4.drink_quantity id='f4_dr_q' class="sq" type="number" %}
+                <div class="sq" id='f4_dr_p' ></div>
             </ul>
         </div>
     </form>
@@ -229,9 +229,9 @@
                 <li><h2 class="fprc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.first_course %}
-                {% render_field form5.first_course_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form5.first_course id='f5_fc' %}
+                {% render_field form5.first_course_quantity id='f5_fcq' class="sq" type="number" %}
+                <div class="sq" id='f5_fcp' ></div>
             </ul><br>
             <ul>
                 <li><h2 class="tst">Second Course</h2></li>
@@ -239,9 +239,9 @@
                 <li><h2 class="prc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.second_course %}
-                {% render_field form5.second_course_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form5.second_course id='f5_sc' %}
+                {% render_field form5.second_course_quantity id='f5_scq' class="sq" type="number" %}
+                <div class="sq" id='f5_scp'></div>
             </ul><br>
             <ul>
                 <li><h2>Dessert</h2></li>
@@ -249,9 +249,9 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.dessert %}
-                {% render_field form5.dessert_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form5.dessert id='f5_des' %}
+                {% render_field form5.dessert_quantity id='f5_des_q' class="sq" type="number" %}
+                <div class="sq" id='f5_des_p'></div>
             </ul><br>
             <ul>
                 <li><h2>Drinks</h2></li>
@@ -259,9 +259,9 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.drink %}
-                {% render_field form5.drink_quantity class="sq" type="number" %}
-                <div class="sq"></div>
+                {% render_field form5.drink id='f5_dr' %}
+                {% render_field form5.drink_quantity id='f5_dr_q' class="sq" type="number" %}
+                <div class="sq" id='f5_dr_p'></div>
             </ul>
         </div>
     </form>
