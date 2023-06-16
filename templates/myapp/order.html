@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'myapp/css/order.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -31,17 +30,23 @@
             <i class="fa-sharp fa-solid fa-house"></i></a></div>
         <div class="all">
             <div class="days">
-                <div class="list active" onclick="activeList()" id="1">{{Monday}}<br>Monday</div>
-                <div class="list" onclick="activeList()" id="2">{{Tuesday}}<br>Tuesday</div>
-                <div class="list" onclick="activeList()" id="3">{{Wednesday}}<br>Wednesday</div>
-                <div class="list" onclick="activeList()" id="4">{{Thursday}}<br>Thursday</div>
-                <div class="list" onclick="activeList()" id="5">{{Friday}}<br>Friday</div>
+                <div class="list active" onclick="activeList()" id="1">{{Monday.day}}<br>Monday</div>
+                <div class="list" onclick="activeList()" id="2">{{Tuesday.day}}<br>Tuesday</div>
+                <div class="list" onclick="activeList()" id="3">{{Wednesday.day}}<br>Wednesday</div>
+                <div class="list" onclick="activeList()" id="4">{{Thursday.day}}<br>Thursday</div>
+                <div class="list" onclick="activeList()" id="5">{{Friday.day}}<br>Friday</div>
             </div>
         </div>
-        <div class="grn">20 €</div>
+        <div class="grn" id="grn">20 €</div>
+        <div class="grn off" id="grn2">20 €</div>
+        <div class="grn off" id="grn3">20 €</div>
+        <div class="grn off" id="grn4">20 €</div>
+        <div class="grn off" id="grn5">20 €</div>
     </div>
+    <div id='msg1'></div>
     <form id="first" class="off on" method='post'>
         {% csrf_token %}
+
     <div class="main">
         <ul>
             <li><h2 class="frst">First Course</h2></li>
@@ -49,8 +54,8 @@
             <li><h2 class="fprc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.first_course id='f1_fc' %}
-            {% render_field form1.first_course_quantity id='f1_fcq' class="sq" type="number" %}
+            {% render_field formset.forms.0.first_course id='f1_fc'  %}
+            {% render_field formset.forms.0.first_course_quantity id='f1_fcq' class="sq"  type="number" %}
             <div class="sq" id='f1_fcp'></div>
         </ul><br>
         <ul>
@@ -59,8 +64,8 @@
             <li><h2 class="prc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.second_course id='f1_sc' %}
-            {% render_field form1.second_course_quantity id='f1_scq' class="sq" type="number" %}
+            {% render_field formset.forms.0.second_course id='f1_sc'  %}
+            {% render_field formset.forms.0.second_course_quantity id='f1_scq' class="sq"  type="number" %}
             <div class="sq" id='f1_scp'></div>
         </ul><br>
         <ul>
@@ -69,8 +74,8 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.dessert id='f1_des' %}
-            {% render_field form1.dessert_quantity id='f1_des_q' class="sq" type="number" %}
+            {% render_field formset.forms.0.dessert id='f1_des' %}
+            {% render_field formset.forms.0.dessert_quantity id='f1_des_q'  class="sq" type="number" %}
             <div class="sq" id='f1_des_p' ></div>
         </ul><br>
         <ul>
@@ -79,8 +84,8 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form1.drink id='f1_dr' %}
-            {% render_field form1.drink_quantity id='f1_dr_q' class="sq" type="number" %}
+            {% render_field formset.forms.0.drink id='f1_dr' %}
+            {% render_field formset.forms.0.drink_quantity id='f1_dr_q'  class="sq" type="number" %}
             <div class="sq" id='f1_dr_p' ></div>
         </ul>
     </div>
@@ -94,8 +99,8 @@
             <li><h2 class="fprc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.first_course id='f2_fc' %}
-            {% render_field form2.first_course_quantity id='f2_fcq' class="sq" type="number" %}
+            {% render_field formset.forms.1.first_course id='f2_fc'  %}
+            {% render_field formset.forms.1.first_course_quantity id='f2_fcq' class="sq"  type="number" %}
             <div class="sq" id='f2_fcp'></div>
         </ul><br>
         <ul>
@@ -104,8 +109,8 @@
             <li><h2 class="prc">Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.second_course id='f2_sc' %}
-            {% render_field form2.second_course_quantity id='f2_scq' class="sq" type="number" %}
+            {% render_field formset.forms.1.second_course id='f2_sc'  %}
+            {% render_field formset.forms.1.second_course_quantity id='f2_scq'  class="sq" type="number" %}
             <div class="sq" id='f2_scp' ></div>
         </ul><br>
         <ul>
@@ -114,8 +119,8 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.dessert id='f2_des' %}
-            {% render_field form2.dessert_quantity id='f2_des_q' class="sq" type="number" %}
+            {% render_field formset.forms.1.dessert id='f2_des'  %}
+            {% render_field formset.forms.1.dessert_quantity id='f2_des_q' class="sq"  type="number" %}
             <div class="sq" id='f2_des_p'></div>
         </ul><br>
         <ul>
@@ -124,8 +129,8 @@
             <li><h2>Price</h2></li>
         </ul>
         <ul>
-            {% render_field form2.drink id='f2_dr' %}
-            {% render_field form2.drink_quantity id='f2_dr_q' class="sq" type="number" %}
+            {% render_field formset.forms.1.drink id='f2_dr'  %}
+            {% render_field formset.forms.1.drink_quantity id='f2_dr_q' class="sq"  type="number" %}
             <div class="sq" id='f2_dr_p'></div>
         </ul>
     </div>
@@ -139,8 +144,8 @@
                 <li><h2 class="fprc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.first_course id='f3_fc' %}
-                {% render_field form3.first_course_quantity id='f3_fcq' class="sq" type="number" %}
+                {% render_field formset.forms.2.first_course id='f3_fc'  %}
+                {% render_field formset.forms.2.first_course_quantity id='f3_fcq' class="sq"  type="number" %}
                 <div class="sq" id='f3_fcp'></div>
             </ul><br>
             <ul>
@@ -149,8 +154,8 @@
                 <li><h2 class="prc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.second_course id='f3_sc' %}
-                {% render_field form3.second_course_quantity id='f3_scq' class="sq" type="number" %}
+                {% render_field formset.forms.2.second_course id='f3_sc'  %}
+                {% render_field formset.forms.2.second_course_quantity id='f3_scq' class="sq"  type="number" %}
                 <div class="sq" id='f3_scp'></div>
             </ul><br>
             <ul>
@@ -159,8 +164,8 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.dessert id='f3_des' %}
-                {% render_field form3.dessert_quantity id='f3_des_q' class="sq" type="number" %}
+                {% render_field formset.forms.2.dessert id='f3_des'  %}
+                {% render_field formset.forms.2.dessert_quantity id='f3_des_q' class="sq"  type="number" %}
                 <div class="sq" id='f3_des_p' ></div>
             </ul><br>
             <ul>
@@ -169,8 +174,8 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form3.drink id='f3_dr' %}
-                {% render_field form3.drink_quantity id='f3_dr_q' class="sq" type="number" %}
+                {% render_field formset.forms.2.drink id='f3_dr'  %}
+                {% render_field formset.forms.2.drink_quantity id='f3_dr_q' class="sq"  type="number" %}
                 <div class="sq" id='f3_dr_p' ></div>
             </ul>
         </div>
@@ -184,8 +189,8 @@
                 <li><h2 class="fprc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.first_course id="f4_fc" %}
-                {% render_field form4.first_course_quantity id="f4_fcq" class="sq" type="number" %}
+                {% render_field formset.forms.3.first_course id="f4_fc"  %}
+                {% render_field formset.forms.3.first_course_quantity id="f4_fcq" class="sq"  type="number" %}
                 <div class="sq" id="f4_fcp"></div>
             </ul><br>
             <ul>
@@ -194,8 +199,8 @@
                 <li><h2 class="prc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.second_course id='f4_sc' %}
-                {% render_field form4.second_course_quantity id='f4_scq' class="sq" type="number" %}
+                {% render_field formset.forms.3.second_course id='f4_sc'  %}
+                {% render_field formset.forms.3.second_course_quantity id='f4_scq' class="sq"  type="number" %}
                 <div class="sq" id='f4_scp'></div>
             </ul><br>
             <ul>
@@ -204,8 +209,8 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.dessert id='f4_des' %}
-                {% render_field form4.dessert_quantity id='f4_des_q' class="sq" type="number" %}
+                {% render_field formset.forms.3.dessert id='f4_des'  %}
+                {% render_field formset.forms.3.dessert_quantity id='f4_des_q' class="sq"  type="number" %}
                 <div class="sq" id='f4_des_p'></div>
             </ul><br>
             <ul>
@@ -214,8 +219,8 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form4.drink id='f4_dr' %}
-                {% render_field form4.drink_quantity id='f4_dr_q' class="sq" type="number" %}
+                {% render_field formset.forms.3.drink id='f4_dr'  %}
+                {% render_field formset.forms.3.drink_quantity id='f4_dr_q' class="sq"  type="number" %}
                 <div class="sq" id='f4_dr_p' ></div>
             </ul>
         </div>
@@ -229,8 +234,8 @@
                 <li><h2 class="fprc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.first_course id='f5_fc' %}
-                {% render_field form5.first_course_quantity id='f5_fcq' class="sq" type="number" %}
+                {% render_field formset.forms.4.first_course id='f5_fc'  %}
+                {% render_field formset.forms.4.first_course_quantity id='f5_fcq'  class="sq" type="number" %}
                 <div class="sq" id='f5_fcp' ></div>
             </ul><br>
             <ul>
@@ -239,8 +244,8 @@
                 <li><h2 class="prc">Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.second_course id='f5_sc' %}
-                {% render_field form5.second_course_quantity id='f5_scq' class="sq" type="number" %}
+                {% render_field formset.forms.4.second_course id='f5_sc'  %}
+                {% render_field formset.forms.4.second_course_quantity id='f5_scq' class="sq"  type="number" %}
                 <div class="sq" id='f5_scp'></div>
             </ul><br>
             <ul>
@@ -249,8 +254,8 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.dessert id='f5_des' %}
-                {% render_field form5.dessert_quantity id='f5_des_q' class="sq" type="number" %}
+                {% render_field formset.forms.4.dessert id='f5_des'  %}
+                {% render_field formset.forms.4.dessert_quantity id='f5_des_q' class="sq"  type="number" %}
                 <div class="sq" id='f5_des_p'></div>
             </ul><br>
             <ul>
@@ -259,8 +264,8 @@
                 <li><h2>Price</h2></li>
             </ul>
             <ul>
-                {% render_field form5.drink id='f5_dr' %}
-                {% render_field form5.drink_quantity id='f5_dr_q' class="sq" type="number" %}
+                {% render_field formset.forms.4.drink id='f5_dr'  %}
+                {% render_field formset.forms.4.drink_quantity id='f5_dr_q' class="sq"  type="number" %}
                 <div class="sq" id='f5_dr_p'></div>
             </ul>
         </div>
@@ -269,5 +274,22 @@
         <button class="b1" onclick="backBtn()" id="back" style="visibility: hidden;">Back</button>
         <button class="b1" onclick="nextBtn()" id="next"><a href='#'>Next</a></button>
     </div>
-<script src="{% static 'myapp/js/order.js' %}"></script>
+    {% render_field formset.forms.0.date id='f1_date' style="display:none"  %}
+    {% render_field formset.forms.1.date id='f2_date' style="display:none"  %}
+    {% render_field formset.forms.2.date id='f3_date' style="display:none"  %}
+    {% render_field formset.forms.3.date id='f4_date' style="display:none"  %}
+    {% render_field formset.forms.4.date id='f5_date' style="display:none"  %}
+    <script src="{% static 'myapp/js/order.js' %}"></script>
+    <script>
+        let date_1 = '{{ Monday }}';
+        let date_2 = '{{ Tuesday }}';
+        let date_3 = '{{ Wednesday }}';
+        let date_4 = '{{ Thursday }}';
+        let date_5 = '{{ Friday }}';
+        $('#f1_date').val(date_1);
+        $('#f2_date').val(date_2);
+        $('#f3_date').val(date_3);
+        $('#f4_date').val(date_4);
+        $('#f5_date').val(date_5);
+    </script>
 {% endblock %}

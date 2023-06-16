@@ -2,14 +2,14 @@ from django.db import models
 
 
 class Order(models.Model):
-    date = models.DateField(unique=False, blank=False, null=False)
-    first_course = models.CharField(null=False, blank=False, unique=False, max_length=30)
+    date = models.DateField(unique=True, blank=True, null=True)
+    first_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
     first_course_quantity = models.IntegerField()
-    second_course = models.CharField(null=False, blank=False, unique=False, max_length=30)
+    second_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
     second_course_quantity = models.IntegerField()
-    dessert = models.CharField(null=False, blank=False, unique=False, max_length=30)
+    dessert = models.CharField(null=True, blank=True, unique=False, max_length=30)
     dessert_quantity = models.IntegerField()
-    drink = models.CharField(null=False, blank=False, unique=False, max_length=30)
+    drink = models.CharField(null=True, blank=True, unique=False, max_length=30)
     drink_quantity = models.IntegerField()
 
     def __str__(self):

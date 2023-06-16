@@ -10,7 +10,7 @@ __pycache__/
 local.py
 
 # static files
-static/
+# static/
 media/
 
 # fixtures

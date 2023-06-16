@@ -14,7 +14,6 @@ class CustomImageWidget(ClearableFileInput):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-
     photo = forms.ImageField(widget=CustomImageWidget)
 
     def __init__(self, *args, **kwargs):
@@ -91,22 +90,30 @@ class DisabledOptionWidget(forms.Select):
 
 
 class OrderForm(forms.ModelForm):
-    first_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("first_course", flat=True),
-                                          empty_label='Select a dish', widget=DisabledOptionWidget)
+    first_course = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
+        Menu.objects.values_list("first_course", flat=True))], widget=DisabledOptionWidget, required=False)
     first_course_quantity = forms.IntegerField(min_value=0)
-    second_course = forms.ModelChoiceField(queryset=Menu.objects.values_list("second_course", flat=True),
-                                           empty_label='Select a dish', widget=DisabledOptionWidget)
+    second_course = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
+        Menu.objects.values_list("second_course", flat=True))], widget=DisabledOptionWidget, required=False)
     second_course_quantity = forms.IntegerField(min_value=0)
-    dessert = forms.ModelChoiceField(queryset=Menu.objects.values_list("dessert", flat=True),
-                                     empty_label='Select a dish', widget=DisabledOptionWidget)
+    dessert = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
+        Menu.objects.values_list("dessert", flat=True))], widget=DisabledOptionWidget, required=False)
     dessert_quantity = forms.IntegerField(min_value=0)
-    drink = forms.ModelChoiceField(queryset=Menu.objects.values_list("drink", flat=True),
-                                   empty_label='Select a drink', widget=DisabledOptionWidget)
+    drink = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
+        Menu.objects.values_list("drink", flat=True))], widget=DisabledOptionWidget, required=False)
     drink_quantity = forms.IntegerField(min_value=0)
+    date = forms.DateField(required=False)
 
     class Meta:
         model = Order
         fields = "__all__"
+
+    def is_valid(self):
+        res = super(OrderForm, self).is_valid()
+        if not res:
+            print(self.errors)
+            return res
+        return res
 
     def save(self, commit=True):
         if commit:
@@ -121,8 +128,7 @@ class OrderForm(forms.ModelForm):
                 drink=self.cleaned_data['drink'],
                 drink_quantity=self.cleaned_data['drink_quantity']
             )
-
-        return order
+            return order
 
 
 class AddMenuForm(forms.ModelForm):
@@ -174,3 +180,4 @@ class MainPageForm(forms.ModelForm):
     desserts_number = Menu.objects.values_list('dessert', flat=True).count
     drinks = Menu.objects.values_list('drink', flat=True)
     drinks = Menu.objects.values_list('drink', flat=True).count()
+
