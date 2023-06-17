@@ -19,6 +19,7 @@ let grn5 = document.getElementById('grn5');
 let mny = [grn,grn2,grn3,grn4,grn5]
 
 function activeList(){
+    console.log(currentid);
     for(l of list){
         l.classList.remove("active");
     }
@@ -29,8 +30,6 @@ function activeList(){
         for(m of mny){
             m.classList.add('off');
         if(currentid == 1){
-            next.removeAttribute('onclick');
-            next.setAttribute('onclick', 'nextBtn()');
             next.removeAttribute('type');
             next.style.backgroundColor = "rgb(238, 64, 64)";
             next.innerHTML = "Next";
@@ -39,9 +38,7 @@ function activeList(){
             back.style.visibility = 'hidden';
             next.style.visibility = 'visible';
             grn.classList.remove('off');
-        } else if(currentid == 2){
-            next.removeAttribute('onclick');
-            next.setAttribute('onclick', 'nextBtn()');
+        } if(currentid == 2){
             next.removeAttribute('type');
             next.style.backgroundColor = "rgb(238, 64, 64)";
             next.innerHTML = "Next";
@@ -50,9 +47,7 @@ function activeList(){
             back.style.visibility = 'visible';
             next.style.visibility = 'visible';
             grn2.classList.remove('off');
-        } else if(currentid == 3){
-            next.removeAttribute('onclick');
-            next.setAttribute('onclick', 'nextBtn()');
+        } if(currentid == 3){
             next.removeAttribute('type');
             next.style.backgroundColor = "rgb(238, 64, 64)";
             next.innerHTML = "Next";
@@ -61,9 +56,7 @@ function activeList(){
             back.style.visibility = 'visible';
             next.style.visibility = 'visible';
             grn3.classList.remove('off');
-        } else if(currentid == 4){
-            next.removeAttribute('onclick');
-            next.setAttribute('onclick', 'nextBtn()');
+        } if(currentid == 4){
             next.removeAttribute('type');
             next.style.backgroundColor = "rgb(238, 64, 64)";
             next.innerHTML = "Next";
@@ -72,7 +65,7 @@ function activeList(){
             back.style.visibility = 'visible';
             next.style.visibility = 'visible';
             grn4.classList.remove('off');
-        } else if(currentid == 5){
+        } if(currentid == 5){
             next.setAttribute('type', 'submit');
             x.classList.remove('on');
             five.classList.add('on');
@@ -80,11 +73,10 @@ function activeList(){
             next.innerHTML = 'Save';
             next.style.backgroundColor = "rgb(17, 191, 191)";
             grn5.classList.remove('off');
-            next.removeAttribute('onclick');
-            next.setAttribute('onclick', 'do_submit()');
         }}}}
 
 function backBtn(){
+    console.log(currentid);
     if(currentid >1){
         for(l of list){
             l.classList.remove("active");
@@ -96,8 +88,6 @@ function backBtn(){
             for(m of mny){
                 m.classList.add('off');
             if(currentid == 1){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
                 next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
@@ -106,9 +96,7 @@ function backBtn(){
                 back.style.visibility = 'hidden';
                 next.style.visibility = 'visible';
                 grn.classList.remove('off');
-            } else if(currentid == 2){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+            } if(currentid == 2){
                 next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
@@ -117,9 +105,7 @@ function backBtn(){
                 back.style.visibility = 'visible';
                 next.style.visibility = 'visible';
                 grn2.classList.remove('off');
-            } else if(currentid == 3){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+            } if(currentid == 3){
                 next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
@@ -128,9 +114,7 @@ function backBtn(){
                 back.style.visibility = 'visible';
                 next.style.visibility = 'visible';
                 grn3.classList.remove('off');
-            } else if(currentid == 4){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+            } if(currentid == 4){
                 next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
@@ -139,7 +123,7 @@ function backBtn(){
                 back.style.visibility = 'visible';
                 next.style.visibility = 'visible';
                 grn4.classList.remove('off');
-            } else if(currentid == 5){
+            } if(currentid == 5){
                 next.setAttribute('type', 'submit');
                 x.classList.remove('on');
                 five.classList.add('on');
@@ -147,12 +131,10 @@ function backBtn(){
                 next.innerHTML = 'Save';
                 next.style.backgroundColor = "rgb(17, 191, 191)";
                 grn5.classList.remove('off');
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'do_submit()');
             }}}}}
     
 function nextBtn(){
-    next.removeAttribute('type');
+    console.log(currentid);
     if(currentid < 5){
         for(l of list){
             l.classList.remove("active");
@@ -164,8 +146,7 @@ function nextBtn(){
             for(m of mny){
                 m.classList.add('off');
             if(currentid == 1){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+                next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
                 x.classList.remove('on');
@@ -173,9 +154,8 @@ function nextBtn(){
                 back.style.visibility = 'hidden';
                 next.style.visibility = 'visible';
                 grn.classList.remove('off');
-            } else if(currentid == 2){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+            } if(currentid == 2){
+                next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
                 x.classList.remove('on');
@@ -183,9 +163,8 @@ function nextBtn(){
                 back.style.visibility = 'visible';
                 next.style.visibility = 'visible';
                 grn2.classList.remove('off');
-            } else if(currentid == 3){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+            } if(currentid == 3){
+                next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
                 x.classList.remove('on');
@@ -193,9 +172,8 @@ function nextBtn(){
                 back.style.visibility = 'visible';
                 next.style.visibility = 'visible';
                 grn3.classList.remove('off');
-            } else if(currentid == 4){
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'nextBtn()');
+            } if(currentid == 4){
+                next.removeAttribute('type');
                 next.style.backgroundColor = "rgb(238, 64, 64)";
                 next.innerHTML = "Next";
                 x.classList.remove('on');
@@ -203,7 +181,7 @@ function nextBtn(){
                 back.style.visibility = 'visible';
                 next.style.visibility = 'visible';
                 grn4.classList.remove('off');
-            } else if(currentid == 5){
+            } if(currentid == 5){
                 next.setAttribute('type', 'submit');
                 x.classList.remove('on');
                 five.classList.add('on');
@@ -211,10 +189,7 @@ function nextBtn(){
                 next.innerHTML = 'Save';
                 next.style.backgroundColor = "rgb(17, 191, 191)";
                 grn5.classList.remove('off');
-                next.removeAttribute('onclick');
-                next.setAttribute('onclick', 'do_submit()');
-            }}}}}
-            
+            }}}}}           
 
 
 let data;
@@ -1211,9 +1186,5 @@ $('#f5_dr_q').on('change', function(){
 
 
 function do_submit(){
-        $('#first').submit();
-        $('#second').submit();
-        $('#third').submit();
-        $('#four').submit();
-        $('#five').submit();
+        $('#main_form')
 }

@@ -137,7 +137,7 @@ class OrderView(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         days = self._get_days()
-        formset = self.formset_class(prefix=self.prefix)
+        formset = self.formset_class()
 
         return render(request, self.template_name, {
             'formset': formset,
@@ -149,17 +149,14 @@ class OrderView(LoginRequiredMixin, CreateView):
         })
 
     def post(self, request, *args, **kwargs):
-        formset = self.formset_class(request.POST, prefix=self.prefix)
+        formset = self.formset_class(request.POST)
+
         if formset.is_valid():
-            for idx, f in enumerate(formset):
-                f.save()
-
-                if idx == 4:
-                    return redirect(self.success_url)
+            formset.save()
+            return redirect(self.success_url)
         else:
-            print(formset.errors)
-
-        return redirect('order')
+            pprint(request.POST)
+            return redirect('order')
 
     def _get_days(self):
         from datetime import date, timedelta
