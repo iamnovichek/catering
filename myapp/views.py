@@ -1,14 +1,14 @@
 from pprint import pprint
-from django.forms import formset_factory
+from django.forms import formset_factory, BaseFormSet
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, TemplateView
 from django.views.generic import UpdateView
-from .forms import ProfileUpdateForm, AddMenuForm, MainPageForm, OrderForm
+from .forms import ProfileUpdateForm, AddMenuForm, OrderForm
 from django.http import JsonResponse
-from .models import Menu
+from .models import Menu, Order
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
@@ -18,11 +18,15 @@ class CustomTemplateView(LoginRequiredMixin, TemplateView):
 
 class MainPageView(CreateView):
     template_name = 'myapp/home.html'
-    form_class = MainPageForm
+    menu = {
+        "first_courses": list(Menu.objects.values_list('first_course', flat=True)),
+        "second_courses": list(Menu.objects.values_list('second_course', flat=True)),
+        "desserts": list(Menu.objects.values_list('dessert', flat=True)),
+        "drinks": list(Menu.objects.values_list('drink', flat=True))
+    }
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'menu': self.menu})
 
 
 class AddMenuView(LoginRequiredMixin, CreateView):
@@ -74,69 +78,39 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
 
         return render(request, self.template_name, {'form': form})
 
-"""
-class OrderView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('login')
-    template_name = "myapp/order.html"
-    success_url = reverse_lazy("order_success")
-    OrderFormSet = formset_factory(OrderForm, extra=5)
-    formset = OrderFormSet()
 
-    def get(self, request, *args, **kwargs):
-        days = self._get_days()
+class CustomBaseFormSet(BaseFormSet):
 
-        return render(request, self.template_name, {
-            'form1': self.formset[0],
-            'form2': self.formset[1],
-            'form3': self.formset[2],
-            'form4': self.formset[3],
-            'form5': self.formset[4],
-            'Monday': days[0],
-            'Tuesday': days[1],
-            'Wednesday': days[2],
-            'Thursday': days[3],
-            'Friday': days[4]
-        })
+    def is_valid(self):
+        res = super(CustomBaseFormSet, self).is_valid()
+        if not res:
+            pprint(self.errors)
+            return res
 
-    def post(self, request, *args, **kwargs):
-        days = self._get_days()
-
-        if self.formset.is_valid():
-            for idx, form in enumerate(self.formset):
-                form.cleaned_data['date'] = days[idx]
-                form.save()
-            return redirect(self.success_url)
-        else:
-            print(self.formset.errors)
-
-        for idx, f in enumerate(self.formset):
-            if f.is_valid():
-                f.cleaned_data['date'] = days[idx]
-                f.save()
-            else:
-                continue
-
-            if idx == 4:
-                return redirect(self.success_url)
-
-        return redirect('order')
-    def _get_days(self):
-        from datetime import date, timedelta
-
-        today = date.today()
-        current_weekday = today.weekday()
-        start_of_week = today + timedelta(days=7 - current_weekday)
-        return [(start_of_week + timedelta(days=i)) for i in range(5)]"""
+        return res
 
 
 class OrderView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     template_name = "myapp/order.html"
     success_url = reverse_lazy("order_success")
-    formset_class = formset_factory(OrderForm, extra=5)
+    model = Order
+    formset_class = formset_factory(form=OrderForm, formset=CustomBaseFormSet, extra=5)
+
+    def get_form_kwargs(self):
+        kwargs = super(OrderView, self).get_form_kwargs()
+        kwargs['form_kwargs'] = {"user": self.request.user}
+        return kwargs
 
     def get(self, request, *args, **kwargs):
         days = self._get_days()
+        for day in days:
+            try:
+                if Order.objects.get(date=day, user_id=request.user).user_id:
+                    return redirect('order_error')
+            except:
+                break
+
         formset = self.formset_class()
 
         return render(request, self.template_name, {
@@ -149,14 +123,14 @@ class OrderView(LoginRequiredMixin, CreateView):
         })
 
     def post(self, request, *args, **kwargs):
-        formset = self.formset_class(request.POST)
-
+        formset = self.formset_class(request.POST or None, form_kwargs={'user': request.user})
         if formset.is_valid():
-            formset.save()
+            for form in formset:
+                form.save()
+
             return redirect(self.success_url)
-        else:
-            pprint(request.POST)
-            return redirect('order')
+
+        return redirect('order')
 
     def _get_days(self):
         from datetime import date, timedelta
@@ -184,7 +158,7 @@ class PriceSetterAjax(View):
 
 
 class TotalAmountCounterAjax(View):
-    total_money = 20
+    total_money = 30
 
     def post(self, request, *args, **kwargs):
         fc_quantity = self._get_value('fc_quantity')
@@ -207,6 +181,25 @@ class TotalAmountCounterAjax(View):
 
     def _get_value(self, field_name: str):
         try:
-            return int(self.request.POST.get(f'{field_name}'))
+            return float(self.request.POST.get(f'{field_name}'))
         except:
             return 0
+
+
+class HistoryView(CreateView):
+    template_name = "myapp/history.html"
+
+    def get(self, request, *args, **kwargs):
+        days = self._get_days()
+        return render(request, self.template_name, {
+
+        })
+
+    def _get_days(self):
+        from datetime import date, timedelta
+
+        today = date.today()
+        current_weekday = today.weekday()
+        start_of_week = today + timedelta(days=7 - current_weekday)
+        return [(start_of_week + timedelta(days=i)) for i in range(5)]
+

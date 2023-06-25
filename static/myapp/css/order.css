@@ -5,11 +5,6 @@
     font-family: 'Cairo', sans-serif;
 }
 
-body{
-    background-color: rgb(238, 64, 64);
-    background: url('bg.jpg');
-}
-
 .upper{
     display: flex;
     justify-content: space-between;
@@ -164,12 +159,9 @@ body{
 
 .buttons{
     display: flex;
-    justify-content: space-between;
-}
-
-.buttons a{
-    text-decoration: none;
-    color: black;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 .b1{
@@ -177,7 +169,7 @@ body{
     padding: 5px;
     width: 130px;
     font-size: 25px;
-    background-color: rgb(238, 64, 64);
+    background-color: rgb(17, 191, 191);
     cursor: pointer;
 }
 

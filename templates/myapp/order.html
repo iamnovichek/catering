@@ -37,20 +37,21 @@
                 <div class="list" onclick="activeList()" id="5">{{Friday.day}}<br>Friday</div>
             </div>
         </div>
-        <div class="grn" id="grn">20 €</div>
-        <div class="grn off" id="grn2">20 €</div>
-        <div class="grn off" id="grn3">20 €</div>
-        <div class="grn off" id="grn4">20 €</div>
-        <div class="grn off" id="grn5">20 €</div>
+        <div class="grn" id="grn">30 €</div>
+        <div class="grn off" id="grn2">30 €</div>
+        <div class="grn off" id="grn3">30 €</div>
+        <div class="grn off" id="grn4">30 €</div>
+        <div class="grn off" id="grn5">30 €</div>
     </div>
     <div id='msg1'></div>
     <form method='POST' id='main_form'>
+        {{ formset.management_form }}
         {% csrf_token %}
 
         {% for form in formset.forms %}
             {% if forloop.counter == 1 %}
         
-                <div id="first" class="off on" method='post'>
+                <div id="first" class="off on">
                     <div class="main">
 
                         <ul>
@@ -59,8 +60,8 @@
                             <li><h2 class="fprc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.first_course id='f1_fc'  %}
-                            {% render_field form.first_course_quantity id='f1_fcq' class="sq"  type="number" %}
+                            {{ form.first_course|attr:"id:f1_fc"  }}
+                            {{ form.first_course_quantity|attr:"id:f1_fcq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f1_fcp'></div>
                         </ul><br>
                         <ul>
@@ -69,8 +70,8 @@
                             <li><h2 class="prc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.second_course id='f1_sc'  %}
-                            {% render_field form.second_course_quantity id='f1_scq' class="sq"  type="number" %}
+                            {{ form.second_course|attr:"id:f1_sc"  }}
+                            {{ form.second_course_quantity|attr:"id:f1_scq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f1_scp'></div>
                         </ul><br>
                         <ul>
@@ -79,8 +80,8 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.dessert id='f1_des' %}
-                            {% render_field form.dessert_quantity id='f1_des_q'  class="sq" type="number" %}
+                            {{ form.dessert|attr:"id:f1_des" }}
+                            {{ form.dessert_quantity|attr:"id:f1_des_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f1_des_p' ></div>
                         </ul><br>
                         <ul>
@@ -89,19 +90,19 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.drink id='f1_dr' %}
-                            {% render_field form.drink_quantity id='f1_dr_q'  class="sq" type="number" %}
+                            {{ form.drink|attr:"id:f1_dr" }}
+                            {{ form.drink_quantity|attr:"id:f1_dr_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f1_dr_p' ></div>
                         </ul>
                     </div>
-                    {% render_field form.date id='f1_date' style="display:none"  %}
+                    {{ form.date|attr:"id:f1_date"|attr:"style:display:none"  }}
                 </div>
         
             {% endif %}
         
             {% if forloop.counter == 2 %}
         
-                <div id="second" class="off" method='post'>
+                <div id="second" class="off">
                 
                     <div class="main">
                         <ul>
@@ -110,8 +111,8 @@
                             <li><h2 class="fprc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.first_course id='f2_fc'  %}
-                            {% render_field form.first_course_quantity id='f2_fcq' class="sq"  type="number" %}
+                            {{ form.first_course|attr:"id:f2_fc"  }}
+                            {{ form.first_course_quantity|attr:"id:f2_fcq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f2_fcp'></div>
                         </ul><br>
                         <ul>
@@ -120,8 +121,8 @@
                             <li><h2 class="prc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.second_course id='f2_sc'  %}
-                            {% render_field form.second_course_quantity id='f2_scq'  class="sq" type="number" %}
+                            {{ form.second_course|attr:"id:f2_sc"  }}
+                            {{ form.second_course_quantity|attr:"id:f2_scq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f2_scp' ></div>
                         </ul><br>
                         <ul>
@@ -130,8 +131,8 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.dessert id='f2_des'  %}
-                            {% render_field form.dessert_quantity id='f2_des_q' class="sq"  type="number" %}
+                            {{ form.dessert|attr:"id:f2_des"  }}
+                            {{ form.dessert_quantity|attr:"id:f2_des_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f2_des_p'></div>
                         </ul><br>
                         <ul>
@@ -140,19 +141,19 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.drink id='f2_dr'  %}
-                            {% render_field form.drink_quantity id='f2_dr_q' class="sq"  type="number" %}
+                            {{ form.drink|attr:"id:f2_dr"  }}
+                            {{ form.drink_quantity|attr:"id:f2_dr_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f2_dr_p'></div>
                         </ul>
                     </div>
-                    {% render_field form.date id='f2_date' style="display:none"  %}
+                    {{ form.date|attr:"id:f2_date"|attr:"style:display:none"  }}
                 </div>
         
             {% endif %}
         
             {% if forloop.counter == 3 %}
         
-                <div id="third" class="off" method='post'>
+                <div id="third" class="off">
                 
                     <div class="main">
                         <ul>
@@ -161,8 +162,8 @@
                             <li><h2 class="fprc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.first_course id='f3_fc'  %}
-                            {% render_field form.first_course_quantity id='f3_fcq' class="sq"  type="number" %}
+                            {{ form.first_course|attr:"id:f3_fc"  }}
+                            {{ form.first_course_quantity|attr:"id:f3_fcq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f3_fcp'></div>
                         </ul><br>
                         <ul>
@@ -171,8 +172,8 @@
                             <li><h2 class="prc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.second_course id='f3_sc'  %}
-                            {% render_field form.second_course_quantity id='f3_scq' class="sq"  type="number" %}
+                            {{ form.second_course|attr:"id:f3_sc"  }}
+                            {{ form.second_course_quantity|attr:"id:f3_scq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f3_scp'></div>
                         </ul><br>
                         <ul>
@@ -181,8 +182,8 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.dessert id='f3_des'  %}
-                            {% render_field form.dessert_quantity id='f3_des_q' class="sq"  type="number" %}
+                            {{ form.dessert|attr:"id:f3_des"  }}
+                            {{ form.dessert_quantity|attr:"id:f3_des_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f3_des_p' ></div>
                         </ul><br>
                         <ul>
@@ -191,19 +192,19 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.drink id='f3_dr'  %}
-                            {% render_field form.drink_quantity id='f3_dr_q' class="sq"  type="number" %}
+                            {{ form.drink|attr:"id:f3_dr"  }}
+                            {{ form.drink_quantity|attr:"id:f3_dr_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f3_dr_p' ></div>
                         </ul>
                     </div>
-                    {% render_field form.date id='f3_date' style="display:none"  %}
+                    {{ form.date|attr:"id:f3_date"|attr:"style:display:none"  }}
                 </div>
         
             {% endif %}
         
             {% if forloop.counter == 4 %}
         
-                <div id="four" class="off" method='post'>
+                <div id="four" class="off">
                 
                     <div class="main">
                         <ul>
@@ -212,8 +213,8 @@
                             <li><h2 class="fprc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.first_course id="f4_fc"  %}
-                            {% render_field form.first_course_quantity id="f4_fcq" class="sq"  type="number" %}
+                            {{ form.first_course|attr:"id:f4_fc"  }}
+                            {{ form.first_course_quantity|attr:"id:f4_fcq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id="f4_fcp"></div>
                         </ul><br>
                         <ul>
@@ -222,8 +223,8 @@
                             <li><h2 class="prc">Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.second_course id='f4_sc'  %}
-                            {% render_field form.second_course_quantity id='f4_scq' class="sq"  type="number" %}
+                            {{ form.second_course|attr:"id:f4_sc"  }}
+                            {{ form.second_course_quantity|attr:"id:f4_scq"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f4_scp'></div>
                         </ul><br>
                         <ul>
@@ -232,8 +233,8 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.dessert id='f4_des'  %}
-                            {% render_field form.dessert_quantity id='f4_des_q' class="sq"  type="number" %}
+                            {{ form.dessert|attr:"id:f4_des"  }}
+                            {{ form.dessert_quantity|attr:"id:f4_des_q"|attr:"class:sq"|attr:"type:number" }}
                             <div class="sq" id='f4_des_p'></div>
                         </ul><br>
                         <ul>
@@ -242,19 +243,19 @@
                             <li><h2>Price</h2></li>
                         </ul>
                         <ul>
-                            {% render_field form.drink id='f4_dr'  %}
-                            {% render_field form.drink_quantity id='f4_dr_q' class="sq"  type="number" %}
+                            {{ form.drink|attr:"id:f4_dr"  }}
+                            {{ form.drink_quantity|attr:"id:f4_dr_q"|attr:"class:sq"|attr:"type:number" }}
                                 <div class="sq" id='f4_dr_p' ></div>
                             </ul>
                         </div>
-                        {% render_field form.date id='f4_date' style="display:none"  %}
+                        {{ form.date|attr:"id:f4_date"|attr:"style:display:none"  }}
                     </div>
 
                 {% endif %}
             
                 {% if forloop.counter == 5 %}
             
-                    <div id="five" class="off" method='post'>
+                    <div id="five" class="off">
                         <div class="main">
                             <ul>
                                 <li><h2 class="frst">First Course</h2></li>
@@ -262,8 +263,8 @@
                                 <li><h2 class="fprc">Price</h2></li>
                             </ul>
                             <ul>
-                                {% render_field form.first_course id='f5_fc'  %}
-                                {% render_field form.first_course_quantity id='f5_fcq'  class="sq" type="number" %}
+                                {{ form.first_course|attr:"id:f5_fc"  }}
+                                {{ form.first_course_quantity|attr:"id:f5_fcq"|attr:"class:sq"|attr:"type:number" }}
                                 <div class="sq" id='f5_fcp' ></div>
                             </ul><br>
                             <ul>
@@ -272,8 +273,8 @@
                                 <li><h2 class="prc">Price</h2></li>
                             </ul>
                             <ul>
-                                {% render_field form.second_course id='f5_sc'  %}
-                                {% render_field form.second_course_quantity id='f5_scq' class="sq"  type="number" %}
+                                {{ form.second_course|attr:"id:f5_sc"  }}
+                                {{ form.second_course_quantity|attr:"id:f5_scq"|attr:"class:sq"|attr:"type:number" }}
                                 <div class="sq" id='f5_scp'></div>
                             </ul><br>
                             <ul>
@@ -282,8 +283,8 @@
                                 <li><h2>Price</h2></li>
                             </ul>
                             <ul>
-                                {% render_field form.dessert id='f5_des'  %}
-                                {% render_field form.dessert_quantity id='f5_des_q' class="sq"  type="number" %}
+                                {{ form.dessert|attr:"id:f5_des"  }}
+                                {{ form.dessert_quantity|attr:"id:f5_des_q"|attr:"class:sq"|attr:"type:number" }}
                                 <div class="sq" id='f5_des_p'></div>
                             </ul><br>
                             <ul>
@@ -292,24 +293,30 @@
                                 <li><h2>Price</h2></li>
                             </ul>
                             <ul>
-                                {% render_field form.drink id='f5_dr'  %}
-                                {% render_field form.drink_quantity id='f5_dr_q' class="sq"  type="number" %}
+                                {{ form.drink|attr:"id:f5_dr"  }}
+                                {{ form.drink_quantity|attr:"id:f5_dr_q"|attr:"class:sq"|attr:"type:number" }}
                                 <div class="sq" id='f5_dr_p'></div>
                             </ul>
                         </div>
-                        {% render_field form.date id='f5_date' style="display:none"  %}
+                        {{ form.date|attr:"id:f5_date"|attr:"style:display:none"  }}
                     </div>
             
                 {% endif %}
             
             {% endfor %}    
-            
+
+            {% if form.errors %}
+                {% for kw, error in form.errors.items %}
+                    {{error}}<br>
+                {% endfor %}
+            {% endif %}
+
             <div class="buttons">
-                <button class="b1" onclick="backBtn()" id="back" style="visibility: hidden;">Back</button>
-                <button class="b1" onclick="nextBtn()" id="next"><a href='#'>Next</a></button>
+                <button class="b1" type='submit' id="save" style="visibility: hidden;">Save</button>
             </div>
         </form>
-    
+        
+
     <script src="{% static 'myapp/js/order.js' %}"></script>
     <script>
         let date_1 = '{{ Monday }}';

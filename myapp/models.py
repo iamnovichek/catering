@@ -1,16 +1,18 @@
 from django.db import models
+from userauth.models import CustomUser
 
 
 class Order(models.Model):
-    date = models.DateField(unique=True, blank=True, null=True)
+    user = models.ForeignKey(CustomUser, related_name="order", on_delete=models.CASCADE, unique=False)
+    date = models.DateField()
     first_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
-    first_course_quantity = models.IntegerField()
+    first_course_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
     second_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
-    second_course_quantity = models.IntegerField()
+    second_course_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
     dessert = models.CharField(null=True, blank=True, unique=False, max_length=30)
-    dessert_quantity = models.IntegerField()
+    dessert_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
     drink = models.CharField(null=True, blank=True, unique=False, max_length=30)
-    drink_quantity = models.IntegerField()
+    drink_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
 
     def __str__(self):
         return f"Date of order: {self.date}"
@@ -30,5 +32,20 @@ class Menu(models.Model):
         return 'Dishes'
 
 
-class OrderHistory:
-    pass
+class History(models.Model):
+    user = models.ForeignKey(CustomUser, related_name="history", on_delete=models.CASCADE, unique=False)
+    date = models.DateField()
+    first_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    first_course_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
+    second_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    second_course_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
+    dessert = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    dessert_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
+    drink = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    drink_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
+
+    class Meta:
+        ordering = ['-date']
+
+    def __str__(self):
+        return f"Date of order: {self.date}(History)"

@@ -6,7 +6,7 @@ let third = document.getElementById('third');
 let four = document.getElementById('four');
 let five = document.getElementById('five');
 let all = [first,second,third,four,five];
-let back = document.getElementById('back');
+let save = document.getElementById('save');
 let next = document.getElementById('next');
 let x;
 let l;
@@ -19,178 +19,42 @@ let grn5 = document.getElementById('grn5');
 let mny = [grn,grn2,grn3,grn4,grn5]
 
 function activeList(){
-    console.log(currentid);
     for(l of list){
         l.classList.remove("active");
     }
     event.target.classList.add("active");
     currentid = event.target.id;
+    console.log(currentid);
     for(x of all){
         x.classList.add('off');
         for(m of mny){
             m.classList.add('off');
-        if(currentid == 1){
-            next.removeAttribute('type');
-            next.style.backgroundColor = "rgb(238, 64, 64)";
-            next.innerHTML = "Next";
-            x.classList.remove('on');
-            first.classList.add('on');
-            back.style.visibility = 'hidden';
-            next.style.visibility = 'visible';
-            grn.classList.remove('off');
-        } if(currentid == 2){
-            next.removeAttribute('type');
-            next.style.backgroundColor = "rgb(238, 64, 64)";
-            next.innerHTML = "Next";
-            x.classList.remove('on');
-            second.classList.add('on');
-            back.style.visibility = 'visible';
-            next.style.visibility = 'visible';
-            grn2.classList.remove('off');
-        } if(currentid == 3){
-            next.removeAttribute('type');
-            next.style.backgroundColor = "rgb(238, 64, 64)";
-            next.innerHTML = "Next";
-            x.classList.remove('on');
-            third.classList.add('on');
-            back.style.visibility = 'visible';
-            next.style.visibility = 'visible';
-            grn3.classList.remove('off');
-        } if(currentid == 4){
-            next.removeAttribute('type');
-            next.style.backgroundColor = "rgb(238, 64, 64)";
-            next.innerHTML = "Next";
-            x.classList.remove('on');
-            four.classList.add('on');
-            back.style.visibility = 'visible';
-            next.style.visibility = 'visible';
-            grn4.classList.remove('off');
-        } if(currentid == 5){
-            next.setAttribute('type', 'submit');
-            x.classList.remove('on');
-            five.classList.add('on');
-            back.style.visibility = 'visible';
-            next.innerHTML = 'Save';
-            next.style.backgroundColor = "rgb(17, 191, 191)";
-            grn5.classList.remove('off');
-        }}}}
-
-function backBtn(){
-    console.log(currentid);
-    if(currentid >1){
-        for(l of list){
-            l.classList.remove("active");
-        }
-        currentid--;
-        list[currentid-1].classList.add("active");
-        for(x of all){
-            x.classList.add('off');
-            for(m of mny){
-                m.classList.add('off');
             if(currentid == 1){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
                 x.classList.remove('on');
                 first.classList.add('on');
-                back.style.visibility = 'hidden';
-                next.style.visibility = 'visible';
+                save.style.visibility = 'hidden';
                 grn.classList.remove('off');
-            } if(currentid == 2){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
+            } else if(currentid == 2){
                 x.classList.remove('on');
                 second.classList.add('on');
-                back.style.visibility = 'visible';
-                next.style.visibility = 'visible';
+                save.style.visibility = 'hidden';
                 grn2.classList.remove('off');
-            } if(currentid == 3){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
+            } else if(currentid == 3){
                 x.classList.remove('on');
                 third.classList.add('on');
-                back.style.visibility = 'visible';
-                next.style.visibility = 'visible';
+                save.style.visibility = 'hidden';
                 grn3.classList.remove('off');
-            } if(currentid == 4){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
+            } else if(currentid == 4){
                 x.classList.remove('on');
                 four.classList.add('on');
-                back.style.visibility = 'visible';
-                next.style.visibility = 'visible';
+                save.style.visibility = 'hidden';
                 grn4.classList.remove('off');
-            } if(currentid == 5){
-                next.setAttribute('type', 'submit');
+            } else if(currentid == 5){
                 x.classList.remove('on');
                 five.classList.add('on');
-                back.style.visibility = 'visible';
-                next.innerHTML = 'Save';
-                next.style.backgroundColor = "rgb(17, 191, 191)";
+                save.style.visibility = 'visible';
                 grn5.classList.remove('off');
-            }}}}}
-    
-function nextBtn(){
-    console.log(currentid);
-    if(currentid < 5){
-        for(l of list){
-            l.classList.remove("active");
-        }
-        currentid++;
-        list[currentid-1].classList.add("active");
-        for(x of all){
-            x.classList.add('off');
-            for(m of mny){
-                m.classList.add('off');
-            if(currentid == 1){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
-                x.classList.remove('on');
-                first.classList.add('on');
-                back.style.visibility = 'hidden';
-                next.style.visibility = 'visible';
-                grn.classList.remove('off');
-            } if(currentid == 2){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
-                x.classList.remove('on');
-                second.classList.add('on');
-                back.style.visibility = 'visible';
-                next.style.visibility = 'visible';
-                grn2.classList.remove('off');
-            } if(currentid == 3){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
-                x.classList.remove('on');
-                third.classList.add('on');
-                back.style.visibility = 'visible';
-                next.style.visibility = 'visible';
-                grn3.classList.remove('off');
-            } if(currentid == 4){
-                next.removeAttribute('type');
-                next.style.backgroundColor = "rgb(238, 64, 64)";
-                next.innerHTML = "Next";
-                x.classList.remove('on');
-                four.classList.add('on');
-                back.style.visibility = 'visible';
-                next.style.visibility = 'visible';
-                grn4.classList.remove('off');
-            } if(currentid == 5){
-                next.setAttribute('type', 'submit');
-                x.classList.remove('on');
-                five.classList.add('on');
-                back.style.visibility = 'visible';
-                next.innerHTML = 'Save';
-                next.style.backgroundColor = "rgb(17, 191, 191)";
-                grn5.classList.remove('off');
-            }}}}}           
-
+            }}}}
 
 let data;
 $(document).ready(function(){
@@ -1184,7 +1048,3 @@ $('#f5_dr_q').on('change', function(){
     })
 });
 
-
-function do_submit(){
-        $('#main_form')
-}

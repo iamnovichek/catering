@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extrahead %}
+  <link rel="stylesheet" href="{% static 'myapp/css/history.css' %}">
+  <link
+  type="image/png"
+  rel="Shortcut Icon"
+  href="{% static 'myapp/image/pizza.png' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <title>History</title>
+    <style>
+      body {
+        background-image: url('{% static "myapp/image/bg.jpg" %}');
+        background-size: cover;
+      }
+    </style>
+{% endblock  %}
+
+
+{% block content %}
+
+<nav>
+  <div class="logo">
+    <div class="home"><a style="text-decoration:none;color:white;" href='{% url "home" %}'>Home</a></div>
+    <h1>
+      <img class="img1" src="{% static 'myapp/image/pizza.png' %}">
+      SMAKOLYK 
+      <img src="{% static 'myapp/image/pizza.png' %}">
+    </h1>
+  </div>
+</nav>
+  <div class="upper">
+      <ul>
+          <li><input type="date"></li>
+          <li>History</li>
+          <li>Total : ..</li>
+      </ul>
+  </div>
+  <table>
+      <tr>
+        <th>Day</th>
+        <th>Courses</th>
+        <th>Prices</th>
+        <th>Total for day</th>
+      </tr>
+      <tr>
+        <td>Monday</td>
+        <td>first course<br>second course<br>desert<br>drinks</td>
+        <td>10$<br>5$<br>3$<br>2$</td>
+        <td>20$</td>
+      </tr>
+      <tr>
+        <td>Tuesday</td>
+        <td>first course<br>second course<br>desert<br>drinks</td>
+        <td>10$<br>5$<br>3$<br>2$</td>
+        <td>20$</td>
+      </tr>
+      <tr>
+        <td>Wednesday</td>
+        <td>first course<br>second course<br>desert<br>drinks</td>
+        <td>10$<br>5$<br>3$<br>2$</td>
+        <td>20$</td>
+      </tr>
+      <tr>
+        <td>Thursday</td>
+        <td>first course<br>second course<br>desert<br>drinks</td>
+        <td>10$<br>5$<br>3$<br>2$</td>
+        <td>20$</td>
+      </tr>
+      <tr>
+          <td>Friday</td>
+          <td>first course<br>second course<br>desert<br>drinks</td>
+          <td>10$<br>5$<br>3$<br>2$</td>
+          <td>20$</td>
+        </tr>
+    </table>
+
+{% endblock content %}
+
+

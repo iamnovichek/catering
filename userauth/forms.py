@@ -10,7 +10,7 @@ class CustomSignupForm(SignupForm):
     username = forms.CharField(max_length=30, required=True)
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
-    phone = PhoneNumberField(region='UA', required=True)
+    phone = PhoneNumberField(required=True)
 
     class Meta:
         model = CustomUser

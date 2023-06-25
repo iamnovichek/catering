@@ -76,13 +76,10 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=30, unique=False)
     birthdate = models.DateField(unique=False, blank=True, null=True)
     photo = models.ImageField(upload_to='profile_pics')
-    phone = PhoneNumberField(region='UA', max_length=30, unique=True)
+    phone = PhoneNumberField(max_length=30, unique=True)
 
     def __str__(self):
         return self.username
-
-    def _verify_date(self):
-        pass
 
     def get_absolute_url(self):
         return reverse("myapp:update_profile", kwargs={'slug': self.slug})

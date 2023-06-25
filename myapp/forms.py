@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput
 from userauth.models import UserProfile
-from .models import Order, Menu
+from .models import Order, Menu, History
 
 
 class CustomImageWidget(ClearableFileInput):
@@ -92,42 +92,48 @@ class DisabledOptionWidget(forms.Select):
 class OrderForm(forms.ModelForm):
     first_course = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("first_course", flat=True))], widget=DisabledOptionWidget, required=False)
-    first_course_quantity = forms.IntegerField(min_value=0)
+    first_course_quantity = forms.IntegerField(min_value=0, required=False)
     second_course = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("second_course", flat=True))], widget=DisabledOptionWidget, required=False)
-    second_course_quantity = forms.IntegerField(min_value=0)
+    second_course_quantity = forms.IntegerField(min_value=0, required=False)
     dessert = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("dessert", flat=True))], widget=DisabledOptionWidget, required=False)
-    dessert_quantity = forms.IntegerField(min_value=0)
+    dessert_quantity = forms.IntegerField(min_value=0, required=False)
     drink = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
-        Menu.objects.values_list("drink", flat=True))], widget=DisabledOptionWidget, required=False)
-    drink_quantity = forms.IntegerField(min_value=0)
+       Menu.objects.values_list("drink", flat=True))], widget=DisabledOptionWidget, required=False)
+    drink_quantity = forms.IntegerField(min_value=0, required=False)
     date = forms.DateField(required=False)
+    user = forms.Field(required=False)
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.user = user
 
     class Meta:
         model = Order
         fields = "__all__"
 
-    def is_valid(self):
-        res = super(OrderForm, self).is_valid()
-        if not res:
-            print(self.errors)
-            return res
-        return res
-
     def save(self, commit=True):
         if commit:
-            order = Order.objects.create(
-                date=self.cleaned_data['date'],
-                first_course=self.cleaned_data['first_course'],
-                first_course_quantity=self.cleaned_data['first_course_quantity'],
-                second_course=self.cleaned_data['second_course'],
-                second_course_quantity=self.cleaned_data['second_course_quantity'],
-                dessert=self.cleaned_data['dessert'],
-                dessert_quantity=self.cleaned_data['dessert_quantity'],
-                drink=self.cleaned_data['drink'],
-                drink_quantity=self.cleaned_data['drink_quantity']
+            order = super(OrderForm, self).save(commit=False)
+            order.user = self.user
+
+            history = History.objects.create(
+                date=order.date,
+                user=order.user,
+                first_course=order.first_course,
+                first_course_quantity=order.first_course_quantity,
+                second_course=order.second_course,
+                second_course_quantity=order.second_course_quantity,
+                dessert=order.dessert,
+                dessert_quantity=order.dessert_quantity,
+                drink=order.drink,
+                drink_quantity=order.drink_quantity
             )
+            history.save()
+            order.save()
+
             return order
 
 
@@ -165,19 +171,3 @@ class AddMenuForm(forms.ModelForm):
                 line.save()
 
         return db_frame
-
-
-class MainPageForm(forms.ModelForm):
-    class Meta:
-        model = Menu
-        fields = []
-
-    first_courses = Menu.objects.values_list('first_course', flat=True)
-    first_courses_number = Menu.objects.values_list('first_course', flat=True).count()
-    second_courses = Menu.objects.values_list('second_course', flat=True)
-    second_courses_number = Menu.objects.values_list('second_course', flat=True).count()
-    desserts = Menu.objects.values_list('dessert', flat=True)
-    desserts_number = Menu.objects.values_list('dessert', flat=True).count
-    drinks = Menu.objects.values_list('drink', flat=True)
-    drinks = Menu.objects.values_list('drink', flat=True).count()
-
