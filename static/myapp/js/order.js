@@ -77,7 +77,6 @@ $('#f1_fc').on('change', function(){
     let f1_fc_idx = data['first_courses'].indexOf(f1_fc_val);
     f1_fc_price.innerHTML = f1_fc_prices[f1_fc_idx];
     $('#f1_fcq').val(0);
-    f1_fcq_history = 1;
 });
 
 let f1_sc_price = document.getElementById('f1_scp');

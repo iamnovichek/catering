@@ -8,7 +8,7 @@ from django.views.generic import CreateView, TemplateView
 from django.views.generic import UpdateView
 from .forms import ProfileUpdateForm, AddMenuForm, OrderForm
 from django.http import JsonResponse
-from .models import Menu, Order
+from .models import Menu, Order, History
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
@@ -26,7 +26,10 @@ class MainPageView(CreateView):
     }
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'menu': self.menu})
+        return render(request, self.template_name, {
+            'menu': self.menu,
+            'has_order': request.user.id in list(History.objects.values_list('user_id', flat=True))
+        })
 
 
 class AddMenuView(LoginRequiredMixin, CreateView):
@@ -190,12 +193,36 @@ class HistoryView(CreateView):
     template_name = "myapp/history.html"
 
     def get(self, request, *args, **kwargs):
-        days = self._get_days()
-        return render(request, self.template_name, {
+        days = self._get_cur_days()
+        try:
+            data = {
+                'monday': History.objects.get(date=days[0], user_id=request.user),
+                'tuesday': History.objects.get(date=days[1], user_id=request.user),
+                'wednesday': History.objects.get(date=days[2], user_id=request.user),
+                'thursday': History.objects.get(date=days[3], user_id=request.user),
+                'friday': History.objects.get(date=days[4], user_id=request.user)
+            }
+            return render(request, self.template_name, {'data': data})
+        except:
+            days = self._get_next_days()
+            data = {
+                'monday': History.objects.get(date=days[0], user_id=request.user),
+                'tuesday': History.objects.get(date=days[1], user_id=request.user),
+                'wednesday': History.objects.get(date=days[2], user_id=request.user),
+                'thursday': History.objects.get(date=days[3], user_id=request.user),
+                'friday': History.objects.get(date=days[4], user_id=request.user)
+            }
+            return render(request, self.template_name, {'data': data})
 
-        })
+    def _get_cur_days(self):
+        from datetime import date, timedelta
 
-    def _get_days(self):
+        today = date.today()
+        current_weekday = today.weekday()
+        start_of_week = today + timedelta(days=0 - current_weekday)
+        return [(start_of_week + timedelta(days=i)) for i in range(5)]
+
+    def _get_next_days(self):
         from datetime import date, timedelta
 
         today = date.today()
@@ -203,3 +230,119 @@ class HistoryView(CreateView):
         start_of_week = today + timedelta(days=7 - current_weekday)
         return [(start_of_week + timedelta(days=i)) for i in range(5)]
 
+
+class HistoryDefaultSetter(View):
+
+    def get(self, request, *args, **kwargs):
+        menu_data = {
+            'first_courses': list(Menu.objects.values_list('first_course', flat=True)),
+            'first_course_prices': list(Menu.objects.values_list('first_course_price', flat=True)),
+            'second_courses': list(Menu.objects.values_list('second_course', flat=True)),
+            'second_course_prices': list(Menu.objects.values_list('second_course_price', flat=True)),
+            'desserts': list(Menu.objects.values_list('dessert', flat=True)),
+            'dessert_prices': list(Menu.objects.values_list('dessert_price', flat=True)),
+            'drinks': list(Menu.objects.values_list('drink', flat=True)),
+            'drinks_prices': list(Menu.objects.values_list('drink_price', flat=True)),
+        }
+
+        return JsonResponse({'data': menu_data})
+
+
+class HistoryAnotherWeekSetter(View):
+    def get(self, request, *args, **kwargs):
+
+        chosen_date = request.GET.get("date")
+        if chosen_date not in [str(date) for date in list(History.objects.values_list('date', flat=True))]:
+            return JsonResponse({"date_exists": False})
+
+        days = self._get_dates_in_week(chosen_date)
+
+        data = {
+            'monday': {
+                'first_course': History.objects.get(date=days[0], user_id=request.user).first_course,
+                'first_course_quantity': History.objects.get(date=days[0], user_id=request.user).first_course_quantity,
+                'second_course': History.objects.get(date=days[0], user_id=request.user).second_course,
+                'second_course_quantity': History.objects.get(date=days[0],
+                                                              user_id=request.user).second_course_quantity,
+                'dessert': History.objects.get(date=days[0], user_id=request.user).dessert,
+                'dessert_quantity': History.objects.get(date=days[0], user_id=request.user).dessert_quantity,
+                'drink': History.objects.get(date=days[0], user_id=request.user).drink,
+                'drink_quantity': History.objects.get(date=days[0], user_id=request.user).drink_quantity
+            },
+            'tuesday': {
+                'first_course': History.objects.get(date=days[1], user_id=request.user).first_course,
+                'first_course_quantity': History.objects.get(date=days[1], user_id=request.user).first_course_quantity,
+                'second_course': History.objects.get(date=days[1], user_id=request.user).second_course,
+                'second_course_quantity': History.objects.get(date=days[1],
+                                                              user_id=request.user).second_course_quantity,
+                'dessert': History.objects.get(date=days[1], user_id=request.user).dessert,
+                'dessert_quantity': History.objects.get(date=days[1], user_id=request.user).dessert_quantity,
+                'drink': History.objects.get(date=days[1], user_id=request.user).drink,
+                'drink_quantity': History.objects.get(date=days[1], user_id=request.user).drink_quantity
+            },
+            'wednesday': {
+                'first_course': History.objects.get(date=days[2], user_id=request.user).first_course,
+                'first_course_quantity': History.objects.get(date=days[2], user_id=request.user).first_course_quantity,
+                'second_course': History.objects.get(date=days[2], user_id=request.user).second_course,
+                'second_course_quantity': History.objects.get(date=days[2],
+                                                              user_id=request.user).second_course_quantity,
+                'dessert': History.objects.get(date=days[2], user_id=request.user).dessert,
+                'dessert_quantity': History.objects.get(date=days[2], user_id=request.user).dessert_quantity,
+                'drink': History.objects.get(date=days[2], user_id=request.user).drink,
+                'drink_quantity': History.objects.get(date=days[2], user_id=request.user).drink_quantity
+            },
+            'thursday': {
+                'first_course': History.objects.get(date=days[3], user_id=request.user).first_course,
+                'first_course_quantity': History.objects.get(date=days[3], user_id=request.user).first_course_quantity,
+                'second_course': History.objects.get(date=days[3], user_id=request.user).second_course,
+                'second_course_quantity': History.objects.get(date=days[3],
+                                                              user_id=request.user).second_course_quantity,
+                'dessert': History.objects.get(date=days[3], user_id=request.user).dessert,
+                'dessert_quantity': History.objects.get(date=days[3], user_id=request.user).dessert_quantity,
+                'drink': History.objects.get(date=days[3], user_id=request.user).drink,
+                'drink_quantity': History.objects.get(date=days[3], user_id=request.user).drink_quantity
+            },
+            'friday': {
+                'first_course': History.objects.get(date=days[4], user_id=request.user).first_course,
+                'first_course_quantity': History.objects.get(date=days[4], user_id=request.user).first_course_quantity,
+                'second_course': History.objects.get(date=days[4], user_id=request.user).second_course,
+                'second_course_quantity': History.objects.get(date=days[4],
+                                                              user_id=request.user).second_course_quantity,
+                'dessert': History.objects.get(date=days[4], user_id=request.user).dessert,
+                'dessert_quantity': History.objects.get(date=days[4], user_id=request.user).dessert_quantity,
+                'drink': History.objects.get(date=days[4], user_id=request.user).drink,
+                'drink_quantity': History.objects.get(date=days[4], user_id=request.user).drink_quantity
+            }
+        }
+
+        menu_data = {
+            'first_courses': list(Menu.objects.values_list('first_course', flat=True)),
+            'first_course_prices': list(Menu.objects.values_list('first_course_price', flat=True)),
+            'second_courses': list(Menu.objects.values_list('second_course', flat=True)),
+            'second_course_prices': list(Menu.objects.values_list('second_course_price', flat=True)),
+            'desserts': list(Menu.objects.values_list('dessert', flat=True)),
+            'dessert_prices': list(Menu.objects.values_list('dessert_price', flat=True)),
+            'drinks': list(Menu.objects.values_list('drink', flat=True)),
+            'drinks_prices': list(Menu.objects.values_list('drink_price', flat=True)),
+        }
+
+        return JsonResponse({
+            'data': data,
+            'menu': menu_data
+        })
+
+    @staticmethod
+    def _get_dates_in_week(date):
+        import datetime
+        dt = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+        start_of_week = dt - datetime.timedelta(days=dt.weekday())
+        end_of_week = start_of_week + datetime.timedelta(days=4)
+
+        dates_in_week = []
+        current_date = start_of_week
+
+        while current_date <= end_of_week:
+            dates_in_week.append(current_date.strftime('%Y-%m-%d'))
+            current_date += datetime.timedelta(days=1)
+
+        return dates_in_week

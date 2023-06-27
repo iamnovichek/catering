@@ -2,7 +2,9 @@ from django.urls import path
 from django.views.generic import TemplateView
 from .views import \
     UpdateProfileView, ProfileView, AddMenuView, \
-    MainPageView, OrderView, TotalAmountCounterAjax, CustomTemplateView, PriceSetterAjax
+    MainPageView, OrderView, TotalAmountCounterAjax, \
+    CustomTemplateView, PriceSetterAjax, HistoryView, \
+    HistoryDefaultSetter, HistoryAnotherWeekSetter
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='myapp/welcome.html'), name='welcome'),
@@ -15,5 +17,7 @@ urlpatterns = [
     path('success-order/', CustomTemplateView.as_view(template_name='myapp/order_success.html'), name='order_success'),
     path('set_price/', PriceSetterAjax.as_view(), name='set_price'),
     path('set_total_price/', TotalAmountCounterAjax.as_view(), name='set_total_price'),
-    path('history/', CustomTemplateView.as_view(template_name="myapp/history.html"), name='history'),
+    path('history/', HistoryView.as_view(), name='history'),
+    path('history-set-price/', HistoryDefaultSetter.as_view(), name='history_set_price'),
+    path('history-another-week/', HistoryAnotherWeekSetter.as_view(), name='history-another-week')
 ]
