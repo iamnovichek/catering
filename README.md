@@ -14,10 +14,10 @@
 ### Installation mysql-server and creating a database
 ```bash
   sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
-  pip install mysqlclient
+  pip3 install mysqlclient
   sudo apt install mysql-server
   sudo mysql -u root -p
-  create database 'database name';
+  CREATE DATABASE 'database name';
 ```
 
 ### Creating a new user
@@ -36,7 +36,7 @@
   GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'localhost';
   quit
   sudo mysql -u username -p
-  show databases;
+  SHOW DATABASES;
 ```
 
 ### Creating migrations 
@@ -44,12 +44,27 @@
 Create a model in myapp/models.py, than:
 
 ```bash
-  python manage.py makemigrations
-  python manage.py migrate
+  python3 manage.py makemigrations
+  python3 manage.py migrate
 ```
 
 ### Creating a superuser 
 
 ```bash
-  python manage.py createsuperuser
+  python3 manage.py createsuperuser
+```
+
+### Installing Redis
+```commandline
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+
+sudo apt-get update
+sudo apt-get install redis
+```
+#### Start redis server
+
+```commandline
+sudo service redis-server start
 ```

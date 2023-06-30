@@ -148,6 +148,9 @@ class AddMenuForm(forms.ModelForm):
 
         if commit:
 
+            if not self.cleaned_data['menu_file']:
+                return None
+
             if Menu.objects.all():
                 Menu.objects.all().delete()
 

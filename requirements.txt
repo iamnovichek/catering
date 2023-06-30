@@ -7,3 +7,4 @@ django-widget-tweaks==1.4.12
 django-phonenumber-field==7.1.0
 phonenumbers==8.13.11
 celery==5.2.7
+redis==4.6.0

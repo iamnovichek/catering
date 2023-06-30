@@ -1,5 +1,4 @@
-from pprint import pprint
-from django.forms import formset_factory, BaseFormSet
+from django.forms import formset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -82,23 +81,12 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {'form': form})
 
 
-class CustomBaseFormSet(BaseFormSet):
-
-    def is_valid(self):
-        res = super(CustomBaseFormSet, self).is_valid()
-        if not res:
-            pprint(self.errors)
-            return res
-
-        return res
-
-
 class OrderView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     template_name = "myapp/order.html"
     success_url = reverse_lazy("order_success")
     model = Order
-    formset_class = formset_factory(form=OrderForm, formset=CustomBaseFormSet, extra=5)
+    formset_class = formset_factory(form=OrderForm, extra=5)
 
     def get_form_kwargs(self):
         kwargs = super(OrderView, self).get_form_kwargs()
