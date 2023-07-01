@@ -24,7 +24,7 @@
 {% block content %}
     <nav>
         <ul>
-            <li><img src="{% static 'myapp/image/pizza.png' %}"><h1>SMAKOLYK</h1></li>
+            <li><a href="{% url 'welcome' %}"><img src="{% static 'myapp/image/pizza.png' %}"></a><a style="color:rgb(127, 24, 24);" href="{% url 'welcome' %}"><h1>SMAKOLYK</h1></a></li>
         </ul>
         <ul>
             <li><a style="color:red;" href="{% url 'order' %}">ORDER</a></li>

@@ -19,5 +19,7 @@ urlpatterns = [
     path('set_total_price/', TotalAmountCounterAjax.as_view(), name='set_total_price'),
     path('history/', HistoryView.as_view(), name='history'),
     path('history-set-price/', HistoryDefaultSetter.as_view(), name='history_set_price'),
-    path('history-another-week/', HistoryAnotherWeekSetter.as_view(), name='history-another-week')
+    path('history-another-week/', HistoryAnotherWeekSetter.as_view(), name='history-another-week'),
+    path('order-access-denied', CustomTemplateView.as_view(template_name='myapp/access_denied_order.html'
+                                                           ), name='weekend')
 ]

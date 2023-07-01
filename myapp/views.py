@@ -8,6 +8,9 @@ from django.views.generic import UpdateView
 from .forms import ProfileUpdateForm, AddMenuForm, OrderForm
 from django.http import JsonResponse
 from .models import Menu, Order, History
+from .tasks import upload_menu_task
+
+from datetime import datetime, time, timedelta
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
@@ -45,11 +48,27 @@ class AddMenuView(LoginRequiredMixin, CreateView):
         form = self.form_class(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
+            upload_menu_task.apply_async(args=[form.parse_file()], countdown=self.get_countdown_time())
             return redirect(self.success_url)
 
         return redirect(reverse_lazy('add_menu'))
 
+    def get_countdown_time(self):
+        if datetime.now().weekday() >= 4:
+            if datetime.now().weekday() == 4 and datetime.now().time().hour >= 18:
+                print("Вихідні і ми без проблем розміщуємо меню на сайт")
+                return 0
+            print("Вихідні і ми без проблем розміщуємо меню на сайт")
+            return 0
+        print("Чекаємо до п'ятниці 18:00!")
+        now = datetime.now()
+        friday_deadline = datetime.combine(now.date(), time(18, 0)) + timedelta(
+            days=(4 - now.weekday()) % 7)
+        time_difference = friday_deadline - now
+        seconds_left = time_difference.total_seconds()
+        final_time = int(seconds_left)
+        # try with,for example 5 seconds , before accessing whole tiem seconds
+        return 10
 
 class ProfileView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
@@ -94,6 +113,12 @@ class OrderView(LoginRequiredMixin, CreateView):
         return kwargs
 
     def get(self, request, *args, **kwargs):
+
+        # TO UNCOMMENT AFTER FINICHING DEVELOPMENT !!!
+        # if datetime.now().weekday() > 4 or (datetime.now().weekday() >= 4 and
+        #                                      datetime.now().time().hour >= 18):
+        #     return redirect('weekend')
+
         days = self._get_days()
         for day in days:
             try:

@@ -46,6 +46,7 @@ Create a model in myapp/models.py, than:
 ```bash
   python3 manage.py makemigrations
   python3 manage.py migrate
+  python3 manage.py loaddata "your fixture name"
 ```
 
 ### Creating a superuser 
@@ -67,4 +68,10 @@ sudo apt-get install redis
 
 ```commandline
 sudo service redis-server start
+```
+
+#### Start celery server
+
+```commandline
+celery -A mysite.settings.celery worker -l info
 ```

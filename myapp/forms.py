@@ -138,39 +138,35 @@ class OrderForm(forms.ModelForm):
 
 
 class AddMenuForm(forms.ModelForm):
-    menu_file = forms.FileField()
+    menu_file = forms.FileField(required=True)
 
     class Meta:
         model = Menu
         fields = []
 
-    def save(self, commit=True):
+    def parse_file(self):
+        data = []
 
-        if commit:
+        if Menu.objects.all():
+            Menu.objects.all().delete()
 
-            if not self.cleaned_data['menu_file']:
-                return None
+        import pandas as pd
 
-            if Menu.objects.all():
-                Menu.objects.all().delete()
+        csv_file = self.cleaned_data['menu_file']
+        excel_data = pd.read_excel(csv_file)
+        db_frame = excel_data
+        for row in db_frame.itertuples():
+            line = {
+                "first_course": row.first_course,
+                "first_course_price": row.first_course_price,
+                "second_course": row.second_course,
+                "second_course_price": row.second_course_price,
+                "dessert": row.dessert,
+                "dessert_price": row.dessert_price,
+                "drink": row.drink,
+                "drink_price": row.drink_price
+            }
+            data.append(line)
 
-            import pandas as pd
+        return data
 
-            csv_file = self.cleaned_data['menu_file']
-            excel_data = pd.read_excel(csv_file)
-            db_frame = excel_data
-            for row in db_frame.itertuples():
-                line = Menu.objects.create(
-                    first_course=row.first_course,
-                    first_course_price=row.first_course_price,
-                    second_course=row.second_course,
-                    second_course_price=row.second_course_price,
-                    dessert=row.dessert,
-                    dessert_price=row.dessert_price,
-                    drink=row.drink,
-                    drink_price=row.drink_price
-                )
-
-                line.save()
-
-        return db_frame
