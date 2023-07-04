@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from django.forms import formset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -20,16 +22,18 @@ class CustomTemplateView(LoginRequiredMixin, TemplateView):
 
 class MainPageView(CreateView):
     template_name = 'myapp/home.html'
-    menu = {
-        "first_courses": list(Menu.objects.values_list('first_course', flat=True)),
-        "second_courses": list(Menu.objects.values_list('second_course', flat=True)),
-        "desserts": list(Menu.objects.values_list('dessert', flat=True)),
-        "drinks": list(Menu.objects.values_list('drink', flat=True))
-    }
 
     def get(self, request, *args, **kwargs):
+        menu = {
+            "first_courses": list(Menu.objects.values_list('first_course', flat=True)),
+            "second_courses": list(Menu.objects.values_list('second_course', flat=True)),
+            "desserts": list(Menu.objects.values_list('dessert', flat=True)),
+            "drinks": list(Menu.objects.values_list('drink', flat=True)),
+            "len": len(list(Menu.objects.values_list('first_course', flat=True))),
+            "range": range(len(list(Menu.objects.values_list('first_course', flat=True)))),
+        }
         return render(request, self.template_name, {
-            'menu': self.menu,
+            'menu': menu,
             'has_order': request.user.id in list(History.objects.values_list('user_id', flat=True))
         })
 
@@ -69,6 +73,7 @@ class AddMenuView(LoginRequiredMixin, CreateView):
         final_time = int(seconds_left)
         # try with,for example 5 seconds , before accessing whole tiem seconds
         return 10
+
 
 class ProfileView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')

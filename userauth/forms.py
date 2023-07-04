@@ -1,4 +1,3 @@
-import django.core.exceptions
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm as SignupForm

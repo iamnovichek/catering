@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
@@ -11,14 +12,12 @@ class CustomLoginView(LoginView):
     form_class = AuthenticationForm
     redirect_authenticated_user = True
     template_name = 'userauth/login.html'
-    form_class.error_messages[
-        "invalid_login"
-    ] = 'Please enter a correct email and password. Note that both fields may be case-sensitive.'
 
     def get_success_url(self):
         return reverse_lazy('home')
 
     def form_invalid(self, form):
+        messages.error(self.request, "Invalid values! Try again or sign up!")
         return self.render_to_response(self.get_context_data(form=form))
 
 

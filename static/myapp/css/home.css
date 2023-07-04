@@ -100,20 +100,6 @@ nav img{
     color: white;
 }
 
-#myCarousel , #myCarousel2 , #myCarousel3 , #myCarousel4{
-    margin-left: 120px;
-    margin-right: 120px;
-}
-
-.carousel-inner{
-    margin-top: 10px;
-    height: 150px;
-    border-radius: 10px;
-}
-
-.col-md-4{
-    background-color: rgb(238, 64, 64);
-}
 
 .col-md-4 img{
     margin: auto;
@@ -135,4 +121,24 @@ nav img{
 ::-webkit-scrollbar-thumb {
   background: rgb(91, 90, 90);
   border-radius: 10px;
+}
+
+#myCarousel , #myCarousel2 , #myCarousel3 , #myCarousel4{
+    margin-left: 120px;
+    margin-right: 120px;
+}
+
+.carousel-inner{
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.col-md-4{
+    background-color: rgb(238, 64, 64);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    text-align: center;
+    
 }

@@ -9,8 +9,6 @@
 <title>Login</title>
 <link type="image/png" rel="Shortcut Icon" href="{% static 'myapp/image/pizza.png' %}">
 {% endblock %}
-
-
 {% block content %}
 <form class="needs-validation" method="post">
     {% csrf_token %}
@@ -23,18 +21,12 @@
         <div class="form-group was-validated">
             <label for="password" class="inp form-label">Password</label><br>
             {{ form.password|attr:'class:form-control'|attr:'type:password'|attr:'id:password' }}
-            {% if not form.errors %}
-                <br><br>
+            <br>
+            {% if messages %}
+            {% for msg in messages %}
+                <p>{{ msg }}</p>
+            {% endfor %}
             {% endif %}
-            <div class="invalid-feedback">
-                {% if form.errors %}
-                    {% for error, value in form.error_messages.items %}
-                        {% if error == "invalid_login" %}
-                            {{value}}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
         </div>
         <button class="sbtn" type="submit">Submit</button>
         <div class="no-account">Don't have an account?<a href="{% url 'signup' %}">  Sign up</a></div>

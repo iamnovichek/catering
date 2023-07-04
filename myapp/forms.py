@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput
 from userauth.models import UserProfile
 from .models import Order, Menu, History
+import os
 
 
 class CustomImageWidget(ClearableFileInput):
@@ -42,10 +43,11 @@ class ProfileUpdateForm(forms.ModelForm):
         birthday = cleaned_data.get('birthdate')
         phone = cleaned_data.get('phone')
         userprofile = UserProfile.objects.get(user=self.instance.user)
-        cleaned_birthday = datetime.datetime.strptime(str(birthday), "%Y-%m-%d").date()
+        if cleaned_data.get('birthday'):
+            cleaned_birthday = datetime.datetime.strptime(str(birthday), "%Y-%m-%d").date()
 
-        if not self._is_adult(cleaned_birthday) or self._is_too_old(cleaned_birthday):
-            raise ValidationError("Enter valid date!")
+            if not self._is_adult(cleaned_birthday) or self._is_too_old(cleaned_birthday):
+                raise ValidationError("Enter valid date!")
 
         if userprofile.username != username:
             if UserProfile.objects.filter(username=username).exists():
@@ -57,6 +59,8 @@ class ProfileUpdateForm(forms.ModelForm):
 
     def save(self, commit=True):
         form = super().save(commit=False)
+        if self.userprofile.photo.url:
+            os.remove(f"{os.getcwd()}/{self.userprofile.photo.url}")
         if commit:
             self.userprofile.username = self.cleaned_data['username']
             self.userprofile.first_name = self.cleaned_data['first_name']
@@ -100,7 +104,7 @@ class OrderForm(forms.ModelForm):
         Menu.objects.values_list("dessert", flat=True))], widget=DisabledOptionWidget, required=False)
     dessert_quantity = forms.IntegerField(min_value=0, required=False)
     drink = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
-       Menu.objects.values_list("drink", flat=True))], widget=DisabledOptionWidget, required=False)
+        Menu.objects.values_list("drink", flat=True))], widget=DisabledOptionWidget, required=False)
     drink_quantity = forms.IntegerField(min_value=0, required=False)
     date = forms.DateField(required=False)
     user = forms.Field(required=False)
@@ -169,4 +173,3 @@ class AddMenuForm(forms.ModelForm):
             data.append(line)
 
         return data
-
