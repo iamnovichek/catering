@@ -89,6 +89,22 @@ let friday_total = document.getElementById('friday_total');
 
 let total = document.getElementById('total');
 
+
+function parseValues(...args) {
+    
+    res = 0;
+
+    for (let i = 0; i < args.length; i++) {
+        if (isNaN(args[i])) {
+            continue;
+        }
+        res += args[i];
+    };
+
+    return res;
+}
+
+
 $(document).ready(function(){
     
     let fc_prices;
@@ -131,11 +147,11 @@ $(document).ready(function(){
             friday_des_p.innerHTML = des_prices[data['desserts'].indexOf(friday_des.innerHTML)] + symbol;
             friday_dr_p.innerHTML = dr_prices[data['drinks'].indexOf(friday_dr.innerHTML)] + symbol;
 
-            let m_total = fc_prices[data['first_courses'].indexOf(monday_fc.innerHTML)] * parseInt(monday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(monday_sc.innerHTML)] * parseInt(monday_scq.innerHTML) + des_prices[data['desserts'].indexOf(monday_des.innerHTML)] * parseInt(monday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(monday_dr.innerHTML)] * monday_dr_q.innerHTML;
-            let tu_total = fc_prices[data['first_courses'].indexOf(tuesday_fc.innerHTML)] * parseInt(tuesday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(tuesday_sc.innerHTML)] * parseInt(tuesday_scq.innerHTML) + des_prices[data['desserts'].indexOf(tuesday_des.innerHTML)] * parseInt(tuesday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(tuesday_dr.innerHTML)] * tuesday_dr_q.innerHTML;
-            let we_total = fc_prices[data['first_courses'].indexOf(wednesday_fc.innerHTML)] * parseInt(wednesday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(wednesday_sc.innerHTML)] * parseInt(wednesday_scq.innerHTML) + des_prices[data['desserts'].indexOf(wednesday_des.innerHTML)] * parseInt(wednesday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(wednesday_dr.innerHTML)] * wednesday_dr_q.innerHTML;
-            let th_total = fc_prices[data['first_courses'].indexOf(thursday_fc.innerHTML)] * parseInt(thursday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(thursday_sc.innerHTML)] * parseInt(thursday_scq.innerHTML) + des_prices[data['desserts'].indexOf(thursday_des.innerHTML)] * parseInt(thursday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(thursday_dr.innerHTML)] * thursday_dr_q.innerHTML;
-            let fr_total = fc_prices[data['first_courses'].indexOf(friday_fc.innerHTML)] * parseInt(friday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(friday_sc.innerHTML)] * parseInt(friday_scq.innerHTML) + des_prices[data['desserts'].indexOf(friday_des.innerHTML)] * parseInt(friday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(friday_dr.innerHTML)] * friday_dr_q.innerHTML;
+            let m_total = parseValues(fc_prices[data['first_courses'].indexOf(monday_fc.innerHTML)] * parseInt(monday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(monday_sc.innerHTML)] * parseInt(monday_scq.innerHTML), des_prices[data['desserts'].indexOf(monday_des.innerHTML)] * parseInt(monday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(monday_dr.innerHTML)] * monday_dr_q.innerHTML);
+            let tu_total = parseValues(fc_prices[data['first_courses'].indexOf(tuesday_fc.innerHTML)] * parseInt(tuesday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(tuesday_sc.innerHTML)] * parseInt(tuesday_scq.innerHTML), des_prices[data['desserts'].indexOf(tuesday_des.innerHTML)] * parseInt(tuesday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(tuesday_dr.innerHTML)] * tuesday_dr_q.innerHTML);
+            let we_total = parseValues(fc_prices[data['first_courses'].indexOf(wednesday_fc.innerHTML)] * parseInt(wednesday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(wednesday_sc.innerHTML)] * parseInt(wednesday_scq.innerHTML), des_prices[data['desserts'].indexOf(wednesday_des.innerHTML)] * parseInt(wednesday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(wednesday_dr.innerHTML)] * wednesday_dr_q.innerHTML);
+            let th_total = parseValues(fc_prices[data['first_courses'].indexOf(thursday_fc.innerHTML)] * parseInt(thursday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(thursday_sc.innerHTML)] * parseInt(thursday_scq.innerHTML), des_prices[data['desserts'].indexOf(thursday_des.innerHTML)] * parseInt(thursday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(thursday_dr.innerHTML)] * thursday_dr_q.innerHTML);
+            let fr_total = parseValues(fc_prices[data['first_courses'].indexOf(friday_fc.innerHTML)] * parseInt(friday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(friday_sc.innerHTML)] * parseInt(friday_scq.innerHTML), des_prices[data['desserts'].indexOf(friday_des.innerHTML)] * parseInt(friday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(friday_dr.innerHTML)] * friday_dr_q.innerHTML);
 
             monday_total.innerHTML = m_total + symbol;
             tuesday_total.innerHTML = tu_total + symbol;
@@ -250,12 +266,11 @@ $("#date").change(function(){
                 friday_des_q.innerHTML = db_data['friday']['dessert_quantity'];
                 friday_dr_q.innerHTML = db_data['friday']['drink_quantity'];
 
-
-                let m_total = fc_prices[data['first_courses'].indexOf(monday_fc.innerHTML)] * parseInt(monday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(monday_sc.innerHTML)] * parseInt(monday_scq.innerHTML) + des_prices[data['desserts'].indexOf(monday_des.innerHTML)] * parseInt(monday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(monday_dr.innerHTML)] * monday_dr_q.innerHTML;
-                let tu_total = fc_prices[data['first_courses'].indexOf(tuesday_fc.innerHTML)] * parseInt(tuesday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(tuesday_sc.innerHTML)] * parseInt(tuesday_scq.innerHTML) + des_prices[data['desserts'].indexOf(tuesday_des.innerHTML)] * parseInt(tuesday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(tuesday_dr.innerHTML)] * tuesday_dr_q.innerHTML;
-                let we_total = fc_prices[data['first_courses'].indexOf(wednesday_fc.innerHTML)] * parseInt(wednesday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(wednesday_sc.innerHTML)] * parseInt(wednesday_scq.innerHTML) + des_prices[data['desserts'].indexOf(wednesday_des.innerHTML)] * parseInt(wednesday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(wednesday_dr.innerHTML)] * wednesday_dr_q.innerHTML;
-                let th_total = fc_prices[data['first_courses'].indexOf(thursday_fc.innerHTML)] * parseInt(thursday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(thursday_sc.innerHTML)] * parseInt(thursday_scq.innerHTML) + des_prices[data['desserts'].indexOf(thursday_des.innerHTML)] * parseInt(thursday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(thursday_dr.innerHTML)] * thursday_dr_q.innerHTML;
-                let fr_total = fc_prices[data['first_courses'].indexOf(friday_fc.innerHTML)] * parseInt(friday_fcq.innerHTML) + sc_prices[data['second_courses'].indexOf(friday_sc.innerHTML)] * parseInt(friday_scq.innerHTML) + des_prices[data['desserts'].indexOf(friday_des.innerHTML)] * parseInt(friday_des_q.innerHTML) + dr_prices[data['drinks'].indexOf(friday_dr.innerHTML)] * friday_dr_q.innerHTML;
+                let m_total = parseValues(fc_prices[data['first_courses'].indexOf(monday_fc.innerHTML)] * parseInt(monday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(monday_sc.innerHTML)] * parseInt(monday_scq.innerHTML), des_prices[data['desserts'].indexOf(monday_des.innerHTML)] * parseInt(monday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(monday_dr.innerHTML)] * monday_dr_q.innerHTML);
+            let tu_total = parseValues(fc_prices[data['first_courses'].indexOf(tuesday_fc.innerHTML)] * parseInt(tuesday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(tuesday_sc.innerHTML)] * parseInt(tuesday_scq.innerHTML), des_prices[data['desserts'].indexOf(tuesday_des.innerHTML)] * parseInt(tuesday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(tuesday_dr.innerHTML)] * tuesday_dr_q.innerHTML);
+            let we_total = parseValues(fc_prices[data['first_courses'].indexOf(wednesday_fc.innerHTML)] * parseInt(wednesday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(wednesday_sc.innerHTML)] * parseInt(wednesday_scq.innerHTML), des_prices[data['desserts'].indexOf(wednesday_des.innerHTML)] * parseInt(wednesday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(wednesday_dr.innerHTML)] * wednesday_dr_q.innerHTML);
+            let th_total = parseValues(fc_prices[data['first_courses'].indexOf(thursday_fc.innerHTML)] * parseInt(thursday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(thursday_sc.innerHTML)] * parseInt(thursday_scq.innerHTML), des_prices[data['desserts'].indexOf(thursday_des.innerHTML)] * parseInt(thursday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(thursday_dr.innerHTML)] * thursday_dr_q.innerHTML);
+            let fr_total = parseValues(fc_prices[data['first_courses'].indexOf(friday_fc.innerHTML)] * parseInt(friday_fcq.innerHTML), sc_prices[data['second_courses'].indexOf(friday_sc.innerHTML)] * parseInt(friday_scq.innerHTML), des_prices[data['desserts'].indexOf(friday_des.innerHTML)] * parseInt(friday_des_q.innerHTML), dr_prices[data['drinks'].indexOf(friday_dr.innerHTML)] * friday_dr_q.innerHTML);
 
                 monday_total.innerHTML = m_total + symbol;
                 tuesday_total.innerHTML = tu_total + symbol;

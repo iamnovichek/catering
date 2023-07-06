@@ -281,7 +281,7 @@ $('#f5_dr').on('change', function(){
 });
 
 
-let symbol = " €";
+let symbol = " ₴";
 
 
 function get_values_f1() {
@@ -326,7 +326,7 @@ $('#f1_fcq').on('change', function(){
             let tm = document.getElementById('grn');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -359,7 +359,7 @@ $('#f1_scq').on('change', function(){
             let tm = document.getElementById('grn');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -392,7 +392,7 @@ $('#f1_des_q').on('change', function(){
             let tm = document.getElementById('grn');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -425,7 +425,7 @@ $('#f1_dr_q').on('change', function(){
             let tm = document.getElementById('grn');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -479,7 +479,7 @@ $('#f2_fcq').on('change', function(){
             let tm = document.getElementById('grn2');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -512,7 +512,7 @@ $('#f2_scq').on('change', function(){
             let tm = document.getElementById('grn2');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -545,7 +545,7 @@ $('#f2_des_q').on('change', function(){
             let tm = document.getElementById('grn2');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -578,7 +578,7 @@ $('#f2_dr_q').on('change', function(){
             let tm = document.getElementById('grn2');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -633,7 +633,7 @@ $('#f3_fcq').on('change', function(){
             let tm = document.getElementById('grn3');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -666,7 +666,7 @@ $('#f3_scq').on('change', function(){
             let tm = document.getElementById('grn3');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -699,7 +699,7 @@ $('#f3_des_q').on('change', function(){
             let tm = document.getElementById('grn3');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -732,7 +732,7 @@ $('#f3_dr_q').on('change', function(){
             let tm = document.getElementById('grn3');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -787,7 +787,7 @@ $('#f4_fcq').on('change', function(){
             let tm = document.getElementById('grn4');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -820,7 +820,7 @@ $('#f4_scq').on('change', function(){
             let tm = document.getElementById('grn4');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -853,7 +853,7 @@ $('#f4_des_q').on('change', function(){
             let tm = document.getElementById('grn4');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -886,7 +886,7 @@ $('#f4_dr_q').on('change', function(){
             let tm = document.getElementById('grn4');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -941,7 +941,7 @@ $('#f5_fcq').on('change', function(){
             let tm = document.getElementById('grn5');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -974,7 +974,7 @@ $('#f5_scq').on('change', function(){
             let tm = document.getElementById('grn5');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -1007,7 +1007,7 @@ $('#f5_des_q').on('change', function(){
             let tm = document.getElementById('grn5');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }
@@ -1039,7 +1039,7 @@ $('#f5_dr_q').on('change', function(){
             let tm = document.getElementById('grn5');
             tm.innerHTML = response['response'] + symbol;
             if (response['deducted_amount'] == true){
-                alert("Warning! The amount of your order exceeds 20 euros. The difference will be " +
+                alert("Warning! The amount of your order exceeds 200 ₴. The difference will be " +
                 "deducted from your salary.")
             };
         }

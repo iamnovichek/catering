@@ -4,7 +4,7 @@ from .views import \
     UpdateProfileView, ProfileView, AddMenuView, \
     MainPageView, OrderView, TotalAmountCounterAjax, \
     CustomTemplateView, PriceSetterAjax, HistoryView, \
-    HistoryDefaultSetter, HistoryAnotherWeekSetter
+    HistoryDefaultSetterAjax, HistoryAnotherWeekSetterAjax
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='myapp/welcome.html'), name='welcome'),
@@ -18,8 +18,8 @@ urlpatterns = [
     path('set_price/', PriceSetterAjax.as_view(), name='set_price'),
     path('set_total_price/', TotalAmountCounterAjax.as_view(), name='set_total_price'),
     path('history/', HistoryView.as_view(), name='history'),
-    path('history-set-price/', HistoryDefaultSetter.as_view(), name='history_set_price'),
-    path('history-another-week/', HistoryAnotherWeekSetter.as_view(), name='history-another-week'),
+    path('history-set-price/', HistoryDefaultSetterAjax.as_view(), name='history_set_price'),
+    path('history-another-week/', HistoryAnotherWeekSetterAjax.as_view(), name='history-another-week'),
     path('order-access-denied', CustomTemplateView.as_view(template_name='myapp/access_denied_order.html'
                                                            ), name='weekend')
 ]

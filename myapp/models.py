@@ -35,13 +35,13 @@ class Menu(models.Model):
 class History(models.Model):
     user = models.ForeignKey(CustomUser, related_name="history", on_delete=models.CASCADE, unique=False)
     date = models.DateField()
-    first_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    first_course = models.CharField(null=True, blank=True, unique=False, max_length=100)
     first_course_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
-    second_course = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    second_course = models.CharField(null=True, blank=True, unique=False, max_length=100)
     second_course_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
-    dessert = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    dessert = models.CharField(null=True, blank=True, unique=False, max_length=100)
     dessert_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
-    drink = models.CharField(null=True, blank=True, unique=False, max_length=30)
+    drink = models.CharField(null=True, blank=True, unique=False, max_length=100)
     drink_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
 
     class Meta:

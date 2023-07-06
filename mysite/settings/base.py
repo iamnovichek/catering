@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'myapp',
     'userauth',
     'widget_tweaks',
-    'debug_toolbar',
     "phonenumber_field",
 ]
 
@@ -51,7 +50,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -82,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dj_database',
         'USER': 'root',
-        'PASSWORD': 'lunngu123',
+        'PASSWORD': '<password>',
         'HOST': 'localhost',
         'PORT': '3306',
     }

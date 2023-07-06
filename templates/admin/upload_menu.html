@@ -7,6 +7,10 @@
     {% csrf_token %}
     <hr>
     <br>
+    <p>Make sure the order of the file matches the order as shown in the image</p>
+    <br>
+    <img src="{% static 'myapp/image/excel_order.png' %}">
+    <br>
     {% render_field form.menu_file %}
     <br><br>
     <p>WARNING! If you download a new menu, the old one will be deleted!</p>

@@ -97,15 +97,19 @@ class OrderForm(forms.ModelForm):
     first_course = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("first_course", flat=True))], widget=DisabledOptionWidget, required=False)
     first_course_quantity = forms.IntegerField(min_value=0, required=False)
+    first_course_quantity.initial = 0
     second_course = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("second_course", flat=True))], widget=DisabledOptionWidget, required=False)
     second_course_quantity = forms.IntegerField(min_value=0, required=False)
+    second_course_quantity.initial = 0
     dessert = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("dessert", flat=True))], widget=DisabledOptionWidget, required=False)
     dessert_quantity = forms.IntegerField(min_value=0, required=False)
+    dessert_quantity.initial = 0
     drink = forms.ChoiceField(choices=[("", 'Select a dish')] + [(f"{item}", item) for item in list(
         Menu.objects.values_list("drink", flat=True))], widget=DisabledOptionWidget, required=False)
     drink_quantity = forms.IntegerField(min_value=0, required=False)
+    drink_quantity.initial = 0
     date = forms.DateField(required=False)
     user = forms.Field(required=False)
 

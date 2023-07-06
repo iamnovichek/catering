@@ -1,6 +1,4 @@
-from pprint import pprint
-
-from django.forms import formset_factory
+from django.forms import formset_factory, BaseFormSet
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -9,15 +7,16 @@ from django.views.generic import CreateView, TemplateView
 from django.views.generic import UpdateView
 from .forms import ProfileUpdateForm, AddMenuForm, OrderForm
 from django.http import JsonResponse
-from .models import Menu, Order, History
+from .models import Menu, Order, History, CustomUser
 from .tasks import upload_menu_task
+from django.conf import settings
+from django.core.mail import send_mail
 
 from datetime import datetime, time, timedelta
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy('login')
-    template_name = 'myapp/order.html'
 
 
 class MainPageView(CreateView):
@@ -57,22 +56,20 @@ class AddMenuView(LoginRequiredMixin, CreateView):
 
         return redirect(reverse_lazy('add_menu'))
 
-    def get_countdown_time(self):
+    @staticmethod
+    def get_countdown_time():
         if datetime.now().weekday() >= 4:
             if datetime.now().weekday() == 4 and datetime.now().time().hour >= 18:
-                print("Вихідні і ми без проблем розміщуємо меню на сайт")
                 return 0
-            print("Вихідні і ми без проблем розміщуємо меню на сайт")
             return 0
-        print("Чекаємо до п'ятниці 18:00!")
+
         now = datetime.now()
         friday_deadline = datetime.combine(now.date(), time(18, 0)) + timedelta(
             days=(4 - now.weekday()) % 7)
         time_difference = friday_deadline - now
         seconds_left = time_difference.total_seconds()
         final_time = int(seconds_left)
-        # try with,for example 5 seconds , before accessing whole tiem seconds
-        return 10
+        return final_time
 
 
 class ProfileView(LoginRequiredMixin, CreateView):
@@ -105,12 +102,22 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {'form': form})
 
 
+class CustomBaseFormSet(BaseFormSet):
+
+    def is_valid(self):
+        res = super().is_valid()
+        if not res:
+            print(self.errors)
+            return res
+        return res
+
+
 class OrderView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     template_name = "myapp/order.html"
     success_url = reverse_lazy("order_success")
     model = Order
-    formset_class = formset_factory(form=OrderForm, extra=5)
+    formset_class = formset_factory(form=OrderForm, formset=CustomBaseFormSet, extra=5)
 
     def get_form_kwargs(self):
         kwargs = super(OrderView, self).get_form_kwargs()
@@ -119,10 +126,9 @@ class OrderView(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
 
-        # TO UNCOMMENT AFTER FINICHING DEVELOPMENT !!!
-        # if datetime.now().weekday() > 4 or (datetime.now().weekday() >= 4 and
-        #                                      datetime.now().time().hour >= 18):
-        #     return redirect('weekend')
+        if datetime.now().weekday() > 4 or (datetime.now().weekday() >= 4 and
+                                            datetime.now().time().hour >= 18):
+            return redirect('weekend')
 
         days = self._get_days()
         for day in days:
@@ -144,22 +150,76 @@ class OrderView(LoginRequiredMixin, CreateView):
         })
 
     def post(self, request, *args, **kwargs):
-        formset = self.formset_class(request.POST or None, form_kwargs={'user': request.user})
+        formset = self.formset_class(request.POST, form_kwargs={'user': request.user})
+
         if formset.is_valid():
             for form in formset:
-                form.save()
+                order = form.save()
+                data = self._get_data(order)
+                result = self.get_sum(data)
+
+                if result > 200:
+                    cur_user = CustomUser.objects.get(id=request.user.id)
+                    oversum = result - 200
+                    send_mail(
+                        subject="Oversum",
+                        message=f'''{cur_user.userprofile.first_name} {cur_user.userprofile.last_name} 
+                        -> {oversum} ₴ oversum.''',
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[settings.ACCOUNTANT],
+                        fail_silently=False
+                    )
+
+                    send_mail(
+                        subject="Oversum",
+                        message=f'''Dear {cur_user.userprofile.first_name} {cur_user.userprofile.last_name}, 
+                                    you did {oversum} oversum for {order.date}. The difference will be 
+                                    deducted from your salary.''',
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[cur_user],
+                        fail_silently=False
+                    )
 
             return redirect(self.success_url)
 
         return redirect('order')
 
-    def _get_days(self):
+    @staticmethod
+    def _get_days():
         from datetime import date, timedelta
 
         today = date.today()
         current_weekday = today.weekday()
         start_of_week = today + timedelta(days=7 - current_weekday)
         return [(start_of_week + timedelta(days=i)) for i in range(5)]
+
+    @staticmethod
+    def get_price(dish_val, dish_type):
+        if dish_val in list(Menu.objects.values_list(f"{dish_type}", flat=True)):
+            idx = list(Menu.objects.values_list(f"{dish_type}", flat=True)).index(dish_val)
+            return list(Menu.objects.values_list(f"{dish_type}_price", flat=True))[idx]
+        return 0
+
+    def _get_data(self, order):
+        return {
+            "fc_quantity": order.first_course_quantity,
+            "fc_price": self.get_price(order.first_course, 'first_course'),
+            "sc_quantity": order.second_course_quantity,
+            "sc_price": self.get_price(order.second_course, 'second_course'),
+            "des_quantity": order.dessert_quantity,
+            "des_price": self.get_price(order.dessert, 'dessert'),
+            "dr_quantity": order.drink_quantity,
+            "dr_price": self.get_price(order.drink, 'drink')
+        }
+
+    @staticmethod
+    def get_sum(data):
+        res = (data['fc_quantity'] * data['fc_price'] +
+               data['sc_quantity'] * data['sc_price'] +
+               data['des_quantity'] * data['des_price'] +
+               data['dr_quantity'] * data['dr_price']
+               )
+        return res
 
 
 class PriceSetterAjax(View):
@@ -179,7 +239,7 @@ class PriceSetterAjax(View):
 
 
 class TotalAmountCounterAjax(View):
-    total_money = 30
+    total_money = 200
 
     def post(self, request, *args, **kwargs):
         fc_quantity = self._get_value('fc_quantity')
@@ -214,11 +274,11 @@ class HistoryView(CreateView):
         days = self._get_cur_days()
         try:
             data = {
-                'monday': History.objects.get(date=days[0], user_id=request.user),
-                'tuesday': History.objects.get(date=days[1], user_id=request.user),
-                'wednesday': History.objects.get(date=days[2], user_id=request.user),
-                'thursday': History.objects.get(date=days[3], user_id=request.user),
-                'friday': History.objects.get(date=days[4], user_id=request.user)
+                'monday': History.objects.get(date=days[0], user_id=request.user.id),
+                'tuesday': History.objects.get(date=days[1], user_id=request.user.id),
+                'wednesday': History.objects.get(date=days[2], user_id=request.user.id),
+                'thursday': History.objects.get(date=days[3], user_id=request.user.id),
+                'friday': History.objects.get(date=days[4], user_id=request.user.id)
             }
             return render(request, self.template_name, {'data': data})
         except:
@@ -232,7 +292,8 @@ class HistoryView(CreateView):
             }
             return render(request, self.template_name, {'data': data})
 
-    def _get_cur_days(self):
+    @staticmethod
+    def _get_cur_days():
         from datetime import date, timedelta
 
         today = date.today()
@@ -240,7 +301,8 @@ class HistoryView(CreateView):
         start_of_week = today + timedelta(days=0 - current_weekday)
         return [(start_of_week + timedelta(days=i)) for i in range(5)]
 
-    def _get_next_days(self):
+    @staticmethod
+    def _get_next_days():
         from datetime import date, timedelta
 
         today = date.today()
@@ -249,7 +311,7 @@ class HistoryView(CreateView):
         return [(start_of_week + timedelta(days=i)) for i in range(5)]
 
 
-class HistoryDefaultSetter(View):
+class HistoryDefaultSetterAjax(View):
 
     def get(self, request, *args, **kwargs):
         menu_data = {
@@ -266,7 +328,7 @@ class HistoryDefaultSetter(View):
         return JsonResponse({'data': menu_data})
 
 
-class HistoryAnotherWeekSetter(View):
+class HistoryAnotherWeekSetterAjax(View):
     def get(self, request, *args, **kwargs):
 
         chosen_date = request.GET.get("date")
