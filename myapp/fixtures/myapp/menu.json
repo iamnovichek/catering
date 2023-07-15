@@ -1,0 +1,44 @@
+[
+  {
+    "model": "myapp.menu",
+    "pk": 1,
+    "fields": {
+      "first_course": "Lobster bisque",
+      "first_course_price": 5,
+      "second_course": "Pizza",
+      "second_course_price": 6,
+      "dessert": "Tiramisu",
+      "dessert_price": 4.5,
+      "drink": "Fanta",
+      "drink_price": 2
+    }
+  },
+  {
+    "model": "myapp.menu",
+    "pk": 2,
+    "fields": {
+      "first_course": "Tomato soup",
+      "first_course_price": 8,
+      "second_course": "Spaghetti",
+      "second_course_price": 6,
+      "dessert": "Cake",
+      "dessert_price": 7,
+      "drink": "Sprite",
+      "drink_price": 2
+    }
+  },
+  {
+    "model": "myapp.menu",
+    "pk": 3,
+    "fields": {
+      "first_course": "Spaghetti",
+      "first_course_price": 3,
+      "second_course": "Steak",
+      "second_course_price": 6,
+      "dessert": "Chocolate Cake",
+      "dessert_price": 3,
+      "drink": "Cola",
+      "drink_price": 5
+    }
+  }
+  ]
