@@ -7,6 +7,12 @@
     {% csrf_token %}
     <hr>
     <br>
+    {%if messages%}
+    {%for msg in messages%}
+    <p>{{msg}}</p>
+    {%endfor%}
+    {% endif %}
+    <br>
     <p>Make sure the order of the file matches the order as shown in the image</p>
     <br>
     <img src="{% static 'myapp/image/excel_order.png' %}">

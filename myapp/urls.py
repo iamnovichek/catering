@@ -6,6 +6,8 @@ from .views import \
     CustomTemplateView, PriceSetterAjax, HistoryView, \
     HistoryDefaultSetterAjax, HistoryAnotherWeekSetterAjax
 
+app_name = 'myapp'
+
 urlpatterns = [
     path('', TemplateView.as_view(template_name='myapp/welcome.html'), name='welcome'),
     path('smakolyk/', MainPageView.as_view(), name='home'),
@@ -20,6 +22,6 @@ urlpatterns = [
     path('history/', HistoryView.as_view(), name='history'),
     path('history-set-price/', HistoryDefaultSetterAjax.as_view(), name='history_set_price'),
     path('history-another-week/', HistoryAnotherWeekSetterAjax.as_view(), name='history-another-week'),
-    path('order-access-denied', CustomTemplateView.as_view(template_name='myapp/access_denied_order.html'
+    path('order-access-denied/', CustomTemplateView.as_view(template_name='myapp/access_denied_order.html'
                                                            ), name='weekend')
 ]

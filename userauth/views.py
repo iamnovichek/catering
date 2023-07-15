@@ -12,9 +12,7 @@ class CustomLoginView(LoginView):
     form_class = AuthenticationForm
     redirect_authenticated_user = True
     template_name = 'userauth/login.html'
-
-    def get_success_url(self):
-        return reverse_lazy('home')
+    success_url = "home"
 
     def form_invalid(self, form):
         messages.error(self.request, "Invalid values! Try again or sign up!")
@@ -28,7 +26,7 @@ class CustomSignupView(CreateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, context={'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

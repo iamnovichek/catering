@@ -25,17 +25,17 @@
 {% block content %}
     <nav>
         <ul>
-            <li><a href="{% url 'welcome' %}"><img src="{% static 'myapp/image/pizza.png' %}"></a><a style="color:rgb(127, 24, 24);" href="{% url 'welcome' %}"><h1>SMAKOLYK</h1></a></li>
+            <li><a href="{% url 'myapp:welcome' %}"><img src="{% static 'myapp/image/pizza.png' %}"></a><a style="color:rgb(127, 24, 24);" href="{% url 'myapp:welcome' %}"><h1>SMAKOLYK</h1></a></li>
         </ul>
         <ul>
-            <li><a style="color:red;" href="{% url 'order' %}">ORDER</a></li>
+            <li><a style="color:red;" href="{% url 'myapp:order' %}">ORDER</a></li>
             {% if has_order %}
-            <li><a style="color:red;" href="{% url 'history' %}">HISTORY</a></li>
+            <li><a style="color:red;" href="{% url 'myapp:history' %}">HISTORY</a></li>
             {% endif %}
-            <li><a style="color:red;" href="{% url 'profile' %}">PROFILE</a></li>
+            <li><a style="color:red;" href="{% url 'myapp:profile' %}">PROFILE</a></li>
         </ul>
         <ul>
-            <li><a style="color:red;" href="{% url 'order' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a style="color:red;" href="{% url 'myapp:order' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
             {% if user.is_authenticated %}
             <li class="login"><a href="{% url 'logout' %}">LOG OUT</a></li>
             {% else %}

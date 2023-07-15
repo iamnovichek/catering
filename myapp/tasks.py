@@ -1,8 +1,8 @@
 import pandas as pd
 
 from celery import shared_task
-from .models import Menu, Order
 from userauth.models import CustomUser
+from .models import Menu, Order
 from django.core.mail import EmailMessage
 from django.conf import settings
 
@@ -17,7 +17,7 @@ def agrigate_orders():
 
     for i in ids:
         names.append(
-            f"{CustomUser.objects.get(id=i).userprofile.first_name}" +
+            f"{CustomUser.objects.get(id=i).userprofile.first_name} " +
             f"{CustomUser.objects.get(id=i).userprofile.last_name}"
         )
 
@@ -60,7 +60,7 @@ def send_orders_task():
 
     email = EmailMessage(
         subject="Orders",
-        body="Orders for currend week:",
+        body="Orders for current week:",
         from_email=settings.EMAIL_HOST_USER,
         to=[settings.RECEIVER]
     )

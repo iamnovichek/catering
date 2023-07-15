@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.forms',
     'myapp',
-    'userauth',
+    'userauth.apps.UserauthConfig',
     'widget_tweaks',
-    "phonenumber_field",
+    "phonenumber_field"
 ]
 
 MIDDLEWARE = [
@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dj_database',
         'USER': 'root',
-        'PASSWORD': '<password>',
+        'PASSWORD': 'lunngu123',
         'HOST': 'localhost',
         'PORT': '3306',
     }

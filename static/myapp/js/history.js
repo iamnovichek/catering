@@ -1,4 +1,4 @@
-let symbol = " €";
+let symbol = " ₴";
 let data;
 
 let monday_fc = document.getElementById('monday_fc');

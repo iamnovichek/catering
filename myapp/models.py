@@ -14,6 +14,9 @@ class Order(models.Model):
     drink = models.CharField(null=True, blank=True, unique=False, max_length=30)
     drink_quantity = models.IntegerField(blank=True, null=True, unique=False, default=0)
 
+    class Meta:
+        app_label = 'myapp'
+
     def __str__(self):
         return f"Date of order: {self.date}"
 

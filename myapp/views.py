@@ -1,18 +1,19 @@
+from datetime import datetime, time, timedelta, date
 from django.forms import formset_factory, BaseFormSet
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
+from django.contrib import messages
 from django.views.generic import CreateView, TemplateView
 from django.views.generic import UpdateView
-from .forms import ProfileUpdateForm, AddMenuForm, OrderForm
 from django.http import JsonResponse
-from .models import Menu, Order, History, CustomUser
-from .tasks import upload_menu_task
 from django.conf import settings
 from django.core.mail import send_mail
-
-from datetime import datetime, time, timedelta
+from userauth.models import CustomUser
+from .forms import ProfileUpdateForm, AddMenuForm, OrderForm
+from .models import Menu, Order, History
+from .tasks import upload_menu_task
 
 
 class CustomTemplateView(LoginRequiredMixin, TemplateView):
@@ -51,18 +52,30 @@ class AddMenuView(LoginRequiredMixin, CreateView):
         form = self.form_class(request.POST, request.FILES)
 
         if form.is_valid():
-            upload_menu_task.apply_async(args=[form.parse_file()], countdown=self.get_countdown_time())
+            try:
+                res = form.parse_file()
+            except:
+                messages.error(request, "Ivalid file! try again!")
+                return redirect(reverse_lazy('myapp:add_menu'))
+            upload_menu_task.apply_async(args=[res], countdown=self.get_countdown_time())
             return redirect(self.success_url)
 
-        return redirect(reverse_lazy('add_menu'))
+        return redirect(reverse_lazy('myapp:add_menu'))
 
-    @staticmethod
-    def get_countdown_time():
+    @classmethod
+    def get_countdown_time(cls):
         if datetime.now().weekday() >= 4:
+            if datetime.now().weekday() > 4:
+                return 0
             if datetime.now().weekday() == 4 and datetime.now().time().hour >= 18:
                 return 0
-            return 0
+            if datetime.now().weekday() == 4 and datetime.now().time().hour < 18:
+                return cls.get_seconds()
 
+            return cls.get_seconds()
+
+    @staticmethod
+    def get_seconds():
         now = datetime.now()
         friday_deadline = datetime.combine(now.date(), time(18, 0)) + timedelta(
             days=(4 - now.weekday()) % 7)
@@ -85,7 +98,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     template_name = "myapp/update_profile.html"
     slug_url_kwarg = 'slug'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('myapp:profile')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(instance=request.user.userprofile)
@@ -103,6 +116,16 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
 
 
 class CustomBaseFormSet(BaseFormSet):
+    renderer = None
+    absolute_max = 1000
+    min_num = 0
+    form = OrderForm
+    can_order = True
+    can_delete = True
+    can_delete_extra = True
+    validate_max = 1000
+    validate_min = 0
+    max_num = 1000
 
     def is_valid(self):
         res = super().is_valid()
@@ -115,7 +138,7 @@ class CustomBaseFormSet(BaseFormSet):
 class OrderView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     template_name = "myapp/order.html"
-    success_url = reverse_lazy("order_success")
+    success_url = reverse_lazy("myapp:order_success")
     model = Order
     formset_class = formset_factory(form=OrderForm, formset=CustomBaseFormSet, extra=5)
 
@@ -128,14 +151,14 @@ class OrderView(LoginRequiredMixin, CreateView):
 
         if datetime.now().weekday() > 4 or (datetime.now().weekday() >= 4 and
                                             datetime.now().time().hour >= 18):
-            return redirect('weekend')
+            return redirect('myapp:weekend')
 
         days = self._get_days()
         for day in days:
             try:
-                if Order.objects.get(date=day, user_id=request.user).user_id:
-                    return redirect('order_error')
-            except:
+                if Order.objects.get(date=day, user_id=request.user.id):
+                    return redirect('myapp:order_error')
+            except Order.DoesNotExist:
                 break
 
         formset = self.formset_class()
@@ -163,7 +186,7 @@ class OrderView(LoginRequiredMixin, CreateView):
                     oversum = result - 200
                     send_mail(
                         subject="Oversum",
-                        message=f'''{cur_user.userprofile.first_name} {cur_user.userprofile.last_name} 
+                        message=f'''{cur_user.userprofile.first_name} {cur_user.userprofile.last_name}
                         -> {oversum} ₴ oversum.''',
                         from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[settings.ACCOUNTANT],
@@ -172,8 +195,8 @@ class OrderView(LoginRequiredMixin, CreateView):
 
                     send_mail(
                         subject="Oversum",
-                        message=f'''Dear {cur_user.userprofile.first_name} {cur_user.userprofile.last_name}, 
-                                    you did {oversum} oversum for {order.date}. The difference will be 
+                        message=f'''Dear {cur_user.userprofile.first_name} {cur_user.userprofile.last_name},
+                                    you did {oversum} oversum for {order.date}. The difference will be
                                     deducted from your salary.''',
                         from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[cur_user],
@@ -182,12 +205,10 @@ class OrderView(LoginRequiredMixin, CreateView):
 
             return redirect(self.success_url)
 
-        return redirect('order')
+        return redirect('myapp:order')
 
     @staticmethod
     def _get_days():
-        from datetime import date, timedelta
-
         today = date.today()
         current_weekday = today.weekday()
         start_of_week = today + timedelta(days=7 - current_weekday)
@@ -195,6 +216,7 @@ class OrderView(LoginRequiredMixin, CreateView):
 
     @staticmethod
     def get_price(dish_val, dish_type):
+        print(list(Menu.objects.values_list(f"{dish_type}", flat=True)))
         if dish_val in list(Menu.objects.values_list(f"{dish_type}", flat=True)):
             idx = list(Menu.objects.values_list(f"{dish_type}", flat=True)).index(dish_val)
             return list(Menu.objects.values_list(f"{dish_type}_price", flat=True))[idx]
@@ -412,17 +434,16 @@ class HistoryAnotherWeekSetterAjax(View):
         })
 
     @staticmethod
-    def _get_dates_in_week(date):
-        import datetime
-        dt = datetime.datetime.strptime(date, '%Y-%m-%d').date()
-        start_of_week = dt - datetime.timedelta(days=dt.weekday())
-        end_of_week = start_of_week + datetime.timedelta(days=4)
+    def _get_dates_in_week(date_of):
+        dt = datetime.strptime(date_of, '%Y-%m-%d').date()
+        start_of_week = dt - timedelta(days=dt.weekday())
+        end_of_week = start_of_week + timedelta(days=4)
 
         dates_in_week = []
         current_date = start_of_week
 
         while current_date <= end_of_week:
             dates_in_week.append(current_date.strftime('%Y-%m-%d'))
-            current_date += datetime.timedelta(days=1)
+            current_date += timedelta(days=1)
 
         return dates_in_week

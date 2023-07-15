@@ -43,7 +43,7 @@ class ProfileUpdateForm(forms.ModelForm):
         birthday = cleaned_data.get('birthdate')
         phone = cleaned_data.get('phone')
         userprofile = UserProfile.objects.get(user=self.instance.user)
-        if cleaned_data.get('birthday'):
+        if birthday:
             cleaned_birthday = datetime.datetime.strptime(str(birthday), "%Y-%m-%d").date()
 
             if not self._is_adult(cleaned_birthday) or self._is_too_old(cleaned_birthday):
@@ -57,10 +57,14 @@ class ProfileUpdateForm(forms.ModelForm):
             if UserProfile.objects.filter(phone=phone).exists():
                 raise ValidationError("Current phone number is already taken!")
 
+        return cleaned_data
+
     def save(self, commit=True):
         form = super().save(commit=False)
-        if self.userprofile.photo.url:
+        try:
             os.remove(f"{os.getcwd()}/{self.userprofile.photo.url}")
+        except (FileNotFoundError, ValueError):
+            pass
         if commit:
             self.userprofile.username = self.cleaned_data['username']
             self.userprofile.first_name = self.cleaned_data['first_name']
@@ -73,14 +77,12 @@ class ProfileUpdateForm(forms.ModelForm):
 
         return form
 
-    @staticmethod
-    def _is_adult(birthdate):
+    def _is_adult(self, birthdate):
         today_ = datetime.datetime.today()
         age = today_.year - birthdate.year - ((today_.month, today_.day) < (birthdate.month, birthdate.day))
         return age >= 18
 
-    @staticmethod
-    def _is_too_old(birthday):
+    def _is_too_old(self, birthday):
         today_ = datetime.datetime.today()
         age = today_.year - birthday.year - ((today_.month, today_.day) < (birthday.month, birthday.day))
         return age >= 80
@@ -89,7 +91,7 @@ class ProfileUpdateForm(forms.ModelForm):
 class DisabledOptionWidget(forms.Select):
     def render(self, name, value, attrs=None, renderer=None):
         html_code = super(DisabledOptionWidget, self).render(name, value, attrs, renderer)
-        html_code = html_code.replace(f'<option value=""', f'<option value="" disabled')
+        html_code = html_code.replace('<option value=""', '<option value="" disabled')
         return html_code
 
 
@@ -161,7 +163,7 @@ class AddMenuForm(forms.ModelForm):
         import pandas as pd
 
         csv_file = self.cleaned_data['menu_file']
-        excel_data = pd.read_excel(csv_file)
+        excel_data = pd.read_excel(csv_file, engine='openpyxl')
         db_frame = excel_data
         for row in db_frame.itertuples():
             line = {
