@@ -75,3 +75,13 @@ sudo service redis-server start
 ```commandline
 celery -A mysite.settings.celery worker -l info
 ```
+
+### Run tests
+```commandline
+pytest
+```
+or
+```commandline
+pytest -vv
+```
+for more information.

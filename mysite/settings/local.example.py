@@ -1,7 +1,7 @@
 from celery.schedules import crontab
-
 from .base import *
-STATIC_ROOT = "static/"
+
+
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "myapp:home"
 LOGOUT_REDIRECT_URL = "myapp:home"
@@ -9,6 +9,10 @@ AUTH_USER_MODEL = "userauth.CustomUser"
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
 
+STATIC_HOST = os.environ.get("DJANGO_STATIC_HOST", "")
+STATIC_ROOT = "static/"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_URL = STATIC_HOST + 'static/'
 
 FIXTURE_DIRS = [
     'myapp/fixtures/myapp/',
@@ -46,3 +50,9 @@ SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
