@@ -23,5 +23,5 @@ urlpatterns = [
     path('history-set-price/', HistoryDefaultSetterAjax.as_view(), name='history_set_price'),
     path('history-another-week/', HistoryAnotherWeekSetterAjax.as_view(), name='history-another-week'),
     path('order-access-denied/', CustomTemplateView.as_view(template_name='myapp/access_denied_order.html'
-                                                           ), name='weekend')
+                                                            ), name='weekend')
 ]

@@ -9,11 +9,6 @@ __pycache__/
 # local
 local.py
 
-# static files
-# static/
-media/
-
-
 # Distribution / packaging
 .Python
 build/

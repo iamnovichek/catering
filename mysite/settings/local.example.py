@@ -34,16 +34,15 @@ CELERY_BEAT_SCHEDULE = {
 
 # SMTP settings
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'rungotika'
-EMAIL_HOST_PASSWORD = "ealipwirnlcefczc"
+EMAIL_HOST_USER = '<your email>'
+EMAIL_HOST_PASSWORD = "<your host password>"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# Receiver's email
-RECEIVER = "mayachok2005@gmail.com"
-ACCOUNTANT = "mayachok2005@gmail.com"
+ACCOUNTANT = "<email>"
 
+# Settings for SSl and TLS
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
